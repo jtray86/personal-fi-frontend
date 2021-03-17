@@ -5,3 +5,4 @@ function SavingForm(){
         </div>
     )
 }
+export default SavingForm

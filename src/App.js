@@ -7,6 +7,9 @@ import Dashboard from "./Dashboard";
 import Budget from "./Budget";
 import Savings from "./Savings";
 import Debt from "./Debt";
+import SavingForm from "./SavingForm";
+import DebtForm from "./DebtForm";
+import BudgetForm from "./BudgetForm";
 
 function App() {
   return (
@@ -28,8 +31,14 @@ function App() {
       <Route path='/debt/:id'>
         <Debt/>
       </Route>
-      <Route>
-        
+      <Route path='/savingsForm'>
+        <SavingForm/>
+      </Route>
+      <Route path='/debtForm'>
+        <DebtForm/>
+      </Route>
+      <Route path='/budgetForm'>
+        <BudgetForm/>
       </Route>
 
     </Switch>
