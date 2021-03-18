@@ -1,7 +1,7 @@
 
 import './App.css';
 import { Switch, Route } from "react-router-dom";
-import Header from "./Header";
+import HeaderBar from "./HeaderBar";
 import Home from "./Home";
 import Dashboard from "./Dashboard";
 import Budget from "./Budget";
@@ -12,9 +12,10 @@ import DebtForm from "./DebtForm";
 import BudgetForm from "./BudgetForm";
 
 function App() {
+
   return (
     <div>
-      <Header />
+      <HeaderBar />
     <Switch>
       <Route exact path='/home'>
         <Home/> 
