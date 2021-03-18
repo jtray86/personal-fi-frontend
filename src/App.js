@@ -10,12 +10,29 @@ import Debt from "./Debt";
 import SavingForm from "./SavingForm";
 import DebtForm from "./DebtForm";
 import BudgetForm from "./BudgetForm";
+import { useState, useEffect } from "react";
 
 function App() {
 
-  return (
+  const [currentUser, setCurrentUser] = useState(null);
+
+  // auto-login
+  useEffect(() => {
+    fetch("http://localhost:3000/me")
+      .then((r) => r.json())
+      .then(setCurrentUser);
+  }, []);
+
+  console.log(currentUser)
+
+ 
+  
+
+  
+
+return (
     <div>
-      <HeaderBar />
+      <HeaderBar setCurrentUser={setCurrentUser} currentUser={currentUser} />
     <Switch>
       <Route exact path='/home'>
         <Home/> 
