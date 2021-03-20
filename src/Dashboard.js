@@ -1,11 +1,25 @@
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { Container } from 'semantic-ui-react'
 import { Header, Grid, Button, Progress, Segment } from 'semantic-ui-react'
 import Chart from "react-google-charts";
 
-function Dashboard(){
+
+function Dashboard({debts, currentUser, deposits}){
+    const history = useHistory();
     const params = useParams();
     const id = params.id;
+
+console.log(deposits)
+    
+    const debt_amounts = debts.map((debt) => debt.inital_amount)
+    const inital_debt= debt_amounts.reduce((result, num) =>result+num)
+        
+    const debt_current_amounts = debts.map((debt) => debt.current_amount)
+    const current_debt= debt_current_amounts.reduce((result, num) =>result+num)
+
+    const debt_dif = inital_debt - current_debt
+    const percentage_payed = debt_dif/inital_debt
+    
     
     return(
     <Container>
@@ -17,13 +31,13 @@ function Dashboard(){
                         <Grid.Column >
                             <Segment floated='right' style={{width: "75%", "margin-top": "25px"}} >
                                 <Header>Progress</Header>
-                                <Progress percent={83} size='small' color='green' progress />
+                                <Progress percent={percentage_payed.toFixed(2)} size='small' color='green' progress />
                             </Segment>
                             <h4>Total Inital Debt</h4>
-                                <p>$</p>
+                                <p>${inital_debt}</p>
                             <h4>Total Current Debt</h4>
-                                <p>$</p>
-                            <Button inverted color='green' floated='right' size='mini'>
+                                <p>${current_debt}</p>
+                            <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/debt/${currentUser.id}`)}>
                                     Debt Page
                                 </Button>
                         </Grid.Column>
@@ -66,8 +80,8 @@ function Dashboard(){
                             }}
                             rootProps={{ 'data-testid': '1' }}
                             />
-                            <Button inverted color='green'>
-                                Green
+                            <Button inverted color='green' onClick={()=> history.push(`/budget/${currentUser.id}`)}>
+                                Budget
                             </Button>
                 </Grid.Column>
             </Grid>

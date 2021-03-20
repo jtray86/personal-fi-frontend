@@ -5,8 +5,31 @@ import { Container, Table, Header, Grid, Rail,
 Button } from 'semantic-ui-react'
 import BudgetRow from "./BudgetRow";
 import Chart from "react-google-charts";
+import { useParams, useHistory } from "react-router-dom";
+import IncomeRow from "./IncomeRow";
 
-function Budget(){
+
+function Budget({earnings, bills}){
+    const earning_ist = earnings.map((earning)=>{
+        return(
+            <IncomeRow
+                key ={earning.id}
+                earning={earning}
+            />
+        )
+    })
+
+    const bill_inst = bills.map((bill)=>{
+        return(
+            <BudgetRow
+                key={bill.id}
+                bill={bill}
+            />
+        )
+    })
+
+    
+    
     return(
         <Container>
             <Grid>
@@ -15,17 +38,14 @@ function Budget(){
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>Name</Table.HeaderCell>
-                                <Table.HeaderCell>Status</Table.HeaderCell>
-                                <Table.HeaderCell>Notes</Table.HeaderCell>
+                                <Table.HeaderCell>Projected</Table.HeaderCell>
+                                <Table.HeaderCell>Actual</Table.HeaderCell>
+                                <Table.HeaderCell>Pay Day</Table.HeaderCell>
                             </Table.Row>
                             </Table.Header>
 
                             <Table.Body>
-                            <Table.Row >
-                                <Table.Cell>Under $1000</Table.Cell>
-                                <Table.Cell></Table.Cell>
-                                <Table.Cell></Table.Cell>
-                            </Table.Row>
+                            {earning_ist}
                         </Table.Body>
                     </Table>
                     <Button inverted color='green' floated='right' size='mini'>
@@ -71,8 +91,9 @@ function Budget(){
                 <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Name</Table.HeaderCell>
-                    <Table.HeaderCell>Status</Table.HeaderCell>
-                    <Table.HeaderCell>Notes</Table.HeaderCell>
+                    <Table.HeaderCell>Projected</Table.HeaderCell>
+                    <Table.HeaderCell>Actaul</Table.HeaderCell>
+                    <Table.HeaderCell>Due Date</Table.HeaderCell>
                 </Table.Row>
                 </Table.Header>
 
@@ -82,31 +103,31 @@ function Budget(){
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                 </Table.Row>
-                <BudgetRow/>
+                {bill_inst}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
                     <Table.Cell>Credit Card</Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                 </Table.Row>
-                <BudgetRow/>
+                
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
                     <Table.Cell>Student Loans</Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                 </Table.Row>
-                <BudgetRow/>
+                
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
                     <Table.Cell>John</Table.Cell>
                     <Table.Cell>Approved</Table.Cell>
                     <Table.Cell>None</Table.Cell>
                 </Table.Row>
-                <BudgetRow/>
+                
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
                     <Table.Cell>John</Table.Cell>
                     <Table.Cell>Approved</Table.Cell>
                     <Table.Cell>None</Table.Cell>
                 </Table.Row>
-                <BudgetRow/>
+                
                 </Table.Body>
             </Table>
             

@@ -1,6 +1,60 @@
 import { Header, Table, Container, Grid, Button, Progress, Segment } from 'semantic-ui-react'
+import { useParams, useHistory } from "react-router-dom";
+import DebtRow from "./DebtRow";
 
-function Debt(){
+
+function Debt({debts, currentUser}){
+    const history = useHistory();
+
+    const debt_amounts = debts.map((debt) => debt.inital_amount)
+    const inital_debt= debt_amounts.reduce((result, num) =>result+num)
+
+    const debt_current_amounts = debts.map((debt) => debt.current_amount)
+    const current_debt= debt_current_amounts.reduce((result, num) =>result+num)
+
+    const debt_dif = inital_debt - current_debt
+    const percentage_payed = debt_dif/inital_debt
+
+    const under_thousand = debts.filter((debt) => debt.current_amount < 1000)
+
+    const debt_row_under = under_thousand.map((debt) =>
+    {
+        return(
+            <DebtRow
+            key={debt.id}
+            debt={debt}
+            />
+        )
+    }
+    )
+
+    const larger_debts = debts.filter((debt) => debt.current_amount > 1000)
+
+    const debt_row = larger_debts.map((debt) =>
+    {
+        return(
+            <DebtRow
+            key={debt.id}
+            debt={debt}
+            />
+        )
+    }
+    )
+
+    const paid_off = debts.filter((debt) => debt.current_amount === 0)
+
+    const paid_row = paid_off.map((debt) =>
+    {
+        return(
+            <DebtRow
+            key={debt.id}
+            debt={debt}
+            />
+        )
+    }
+    )
+
+
     return(
         
         <Container>
@@ -16,44 +70,41 @@ function Debt(){
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Name</Table.HeaderCell>
-                        <Table.HeaderCell>Status</Table.HeaderCell>
-                        <Table.HeaderCell>Notes</Table.HeaderCell>
+                        <Table.HeaderCell>Inital Amount</Table.HeaderCell>
+                        <Table.HeaderCell>Current Amount</Table.HeaderCell>
+                        <Table.HeaderCell>Interest</Table.HeaderCell>
+                        <Table.HeaderCell>In Collections</Table.HeaderCell>
                     </Table.Row>
                     </Table.Header>
 
                     <Table.Body>
-                    <Table.Row >
-                        <Table.Cell>Under $1000</Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                    </Table.Row>
+                    {debt_row_under}
                 </Table.Body>
             </Table>
+            <Header>Larger Debts</Header>
             <Table celled>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Name</Table.HeaderCell>
-                        <Table.HeaderCell>Status</Table.HeaderCell>
-                        <Table.HeaderCell>Notes</Table.HeaderCell>
+                        <Table.HeaderCell>Inital Amount</Table.HeaderCell>
+                        <Table.HeaderCell>Current Amount</Table.HeaderCell>
+                        <Table.HeaderCell>Interest</Table.HeaderCell>
+                        <Table.HeaderCell>In Collections</Table.HeaderCell>
                     </Table.Row>
                     </Table.Header>
 
                     <Table.Body>
-                    <Table.Row >
-                        <Table.Cell>Under $1000</Table.Cell>
-                        <Table.Cell></Table.Cell>
-                        <Table.Cell></Table.Cell>
-                    </Table.Row>
+                        {debt_row}
                 </Table.Body>
             </Table>
                     </Grid.Column>
                     <Grid.Column width={5} floated='right'>
                         <br/>
                         <Header textAlign='center'>Total Inital Debt</Header>
-                        <p>$</p>
+                        <p>${inital_debt}</p>
                         <br/> 
                         <Segment>
-                            <Progress percent={10} size='small' color='green' progress >
+                            <Progress percent={percentage_payed.toFixed(2)} size='small' color='green' progress >
                                 Paid off
                             </Progress>
                         </Segment>
@@ -64,21 +115,7 @@ function Debt(){
                         <p>Paid Off</p>
                         <Table celled>
                             <Table.Body>
-                                <Table.Row >
-                                    <Table.Cell>Under $1000</Table.Cell>
-                                    <Table.Cell></Table.Cell>
-                                    <Table.Cell></Table.Cell>
-                                </Table.Row>
-                                <Table.Row >
-                                    <Table.Cell>Under $1000</Table.Cell>
-                                    <Table.Cell></Table.Cell>
-                                    <Table.Cell></Table.Cell>
-                                </Table.Row>
-                                <Table.Row >
-                                    <Table.Cell>Under $1000</Table.Cell>
-                                    <Table.Cell></Table.Cell>
-                                    <Table.Cell></Table.Cell>
-                                </Table.Row>
+                            {paid_row}
                             </Table.Body>
                         </Table>
                     </Grid.Column>

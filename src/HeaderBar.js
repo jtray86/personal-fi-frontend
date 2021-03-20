@@ -1,11 +1,12 @@
 import { Header } from 'semantic-ui-react'
 import { Button, Modal, Form, Checkbox } from 'semantic-ui-react'
 import { useState, React } from "react";
+import { useHistory } from "react-router-dom";
 
 function HeaderBar({setCurrentUser, currentUser}){
     const [open, setOpen] = useState(false)
     const [loginForm, setLoginForm] = useState({username:"", password:""})
-    
+    const history = useHistory();
     // function handleChange(e) {
     //     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
     // }
@@ -13,8 +14,11 @@ function HeaderBar({setCurrentUser, currentUser}){
     function handleLogin() {
         fetch("http://localhost:3000/me")
           .then((r) => r.json())
-          .then(setCurrentUser);
-        
+          .then((user) => {setCurrentUser(user);
+          console.log(user)
+          history.push(`/dashboard/${user.id}`)
+          setOpen(false)
+        })
       }
     
       // manual logout
@@ -24,7 +28,7 @@ function HeaderBar({setCurrentUser, currentUser}){
     return(
         <Header as='h1' block textAlign='center' style={{'background-color':'#9effb8'}}>
             Personal FI
-            {currentUser ? <Button floated='right'  inverted color='green' size='mini'>Logout</Button> :
+            {currentUser ? <Button floated='right'  inverted color='green' size='mini' onClick={handleLogout}>Logout</Button> :
             <Button floated='right'  inverted color='green' size='mini'onClick={() => setOpen((open) =>true)}>Login</Button>}
             <Modal
                 onClose={() => setOpen(false)}
@@ -49,7 +53,7 @@ function HeaderBar({setCurrentUser, currentUser}){
                         <Form.Field>
                         <Checkbox label='I agree to the Terms and Conditions' />
                         </Form.Field>
-                        <Button type='submit' onClick={()=>handleLogin}>Submit</Button>
+                        
                     </Form>
                     
                     </Modal.Description>
@@ -60,7 +64,7 @@ function HeaderBar({setCurrentUser, currentUser}){
                     </Button>
                     <Button
                     content="Yep, that's me"
-                    onClick={() => setOpen(false)}
+                    onClick={handleLogin}
                     positive
                     />
                 </Modal.Actions>

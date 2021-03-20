@@ -15,6 +15,10 @@ import { useState, useEffect } from "react";
 function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
+  const [debts, setDebts] = useState([])
+  const [earnings, setEarnings] = useState([])
+  const [bills, setBills] = useState([])
+  const [deposits, setDeposits]= useState([])
 
   // auto-login
   useEffect(() => {
@@ -23,10 +27,45 @@ function App() {
       .then(setCurrentUser);
   }, []);
 
-  console.log(currentUser)
-
- 
+  useEffect(()=>{
+    if (currentUser){
+      fetch(`http://localhost:3000/debt/${currentUser.id}`)
+      .then((r)=>r.json())
+      .then((debts) => 
+      setDebts(debts)
+      )
+    }
+  },[currentUser])
   
+  useEffect(()=>{
+    if (currentUser){
+      fetch(`http://localhost:3000/earning/${currentUser.id}`)
+      .then((r)=>r.json())
+      .then((earning) => 
+      setEarnings(earning)
+      )
+    }
+  },[currentUser])
+ 
+  useEffect(()=>{
+    if (currentUser){
+      fetch(`http://localhost:3000/bill/${currentUser.id}`)
+      .then((r)=>r.json())
+      .then((bills) => 
+      setBills(bills)
+      )
+    }
+  },[currentUser])
+
+  useEffect(()=>{
+    if (currentUser){
+      fetch(`http://localhost:3000/deposit/${currentUser.id}`)
+      .then((r)=>r.json())
+      .then((deposits) => 
+      setDeposits(deposits)
+      )
+    }
+  },[currentUser])
 
   
 
@@ -38,16 +77,16 @@ return (
         <Home/> 
       </Route>
       <Route path='/dashboard/:id'>
-        <Dashboard/>
+        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget/>
+        <Budget earnings={earnings} bills={bills}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings/>
       </Route>
       <Route path='/debt/:id'>
-        <Debt/>
+        <Debt debts={debts} currentUser={currentUser}/>
       </Route>
       <Route path='/savingsForm'>
         <SavingForm/>

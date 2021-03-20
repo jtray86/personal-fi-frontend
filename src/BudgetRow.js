@@ -1,11 +1,18 @@
 import { Table } from 'semantic-ui-react'
 
-function BudgetRow(){
+function BudgetRow({bill}){
+    
+    const {
+        outgoing,
+        actual,
+        paid_date,
+    } = bill
     return(
         <Table.Row>
-            <Table.Cell>John</Table.Cell>
-                    <Table.Cell>Approved</Table.Cell>
-                    <Table.Cell>None</Table.Cell>
+            <Table.Cell>{outgoing.name}</Table.Cell>
+            <Table.Cell>{outgoing.projected}</Table.Cell>
+            <Table.Cell>{actual}</Table.Cell>
+            <Table.Cell>{paid_date}</Table.Cell>
         </Table.Row>
     )
 }
