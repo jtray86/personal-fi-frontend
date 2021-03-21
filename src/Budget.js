@@ -7,7 +7,7 @@ import IncomeRow from "./IncomeRow";
 import { useState } from "react"
 
 
-function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning}){
+function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing}){
     const [open, setOpen] = useState(false)
     const [addNewBtn, setaddNewBtn] = useState(false)
     const [addProjectedForm, setAddProjectedForm] = useState({
@@ -46,6 +46,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning}){
             <BudgetRow
                 key={bill.id}
                 bill={bill}
+                updateOutgoing={updateOutgoing}
             />
         )
     })

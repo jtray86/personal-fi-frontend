@@ -1,9 +1,11 @@
 import { Header, Table, Container, Grid, Button, Progress, Segment } from 'semantic-ui-react'
 import { useParams, useHistory } from "react-router-dom";
 import DebtRow from "./DebtRow";
+import { useState } from 'react'
 
 
-function Debt({debts, currentUser}){
+function Debt({debts, currentUser, transactions, updateDebts}){
+    const [payIcon, setPayIcon] = useState(false)
     const history = useHistory();
 
     const debt_amounts = debts.map((debt) => debt.inital_amount)
@@ -19,10 +21,15 @@ function Debt({debts, currentUser}){
 
     const debt_row_under = under_thousand.map((debt) =>
     {
+        console.log(debts)
         return(
             <DebtRow
             key={debt.id}
             debt={debt}
+            payIcon={payIcon}
+            removePaymentBtn={removePaymentBtn}
+            currentUser={currentUser}
+            updateDebts={updateDebts}
             />
         )
     }
@@ -36,6 +43,10 @@ function Debt({debts, currentUser}){
             <DebtRow
             key={debt.id}
             debt={debt}
+            payIcon={payIcon}
+            removePaymentBtn={removePaymentBtn}
+            currentUser={currentUser}
+            updateDebts={updateDebts}
             />
         )
     }
@@ -54,6 +65,9 @@ function Debt({debts, currentUser}){
     }
     )
 
+    function removePaymentBtn(){
+        setPayIcon((payIcon)=>false)
+    }
 
     return(
         
@@ -121,15 +135,15 @@ function Debt({debts, currentUser}){
                     </Grid.Column>
                     <Grid.Column width={9}>
                         <div style={{height:"90%"}}></div>
-                        <Button inverted color='green' floated='right' size='mini' >
+                        <Button inverted color='green' floated='right' size='mini' onClick={()=>setPayIcon(!payIcon)} >
+                            Report A Payment
+                        </Button>
+                        {/* <Button inverted color='green' floated='right' size='mini' >
                             Debt Page
                         </Button>
                         <Button inverted color='green' floated='right' size='mini' >
                             Debt Page
-                        </Button>
-                        <Button inverted color='green' floated='right' size='mini' >
-                            Debt Page
-                        </Button>
+                        </Button> */}
                     
                     </Grid.Column>
                 </Grid.Row>

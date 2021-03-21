@@ -19,6 +19,7 @@ function App() {
   const [earnings, setEarnings] = useState([])
   const [bills, setBills] = useState([])
   const [deposits, setDeposits]= useState([])
+  const [transactions, setTransactions]= useState([])
 
   // auto-login
   useEffect(() => {
@@ -67,6 +68,16 @@ function App() {
     }
   },[currentUser])
 
+  useEffect(()=>{
+    if (currentUser){
+      fetch(`http://localhost:3000/transaction/${currentUser.id}`)
+      .then((r)=>r.json())
+      .then((deposits) => 
+      setDeposits(deposits)
+      )
+    }
+  },[currentUser])
+
     function AddNewEarning(earning){
       const newEarning = [...earnings, earning]
       setEarnings(newEarning)
@@ -76,7 +87,17 @@ function App() {
       const newEarningAry = earnings.filter((earning) =>earning.id !== newEarning.id)
       setEarnings([...newEarningAry, newEarning])
     }
-    console.log(earnings)
+
+    function updateOutgoing(newBill) {
+      const newBillAry = bills.filter((bill) =>bill.id !== newBill.id)
+      setBills([...newBillAry, newBill])
+    }
+
+    function updateDebts(updateDebt) {
+      const filteredDebt = debts.map((debt)=> debt.id !== updateDebt.id)
+      setDebts([...filteredDebt, updateDebt])
+    }
+    
 
 return (
     <div>
@@ -89,13 +110,13 @@ return (
         <Dashboard debts={debts} currentUser={currentUser} deposits={deposits}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning}/>
+        <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings/>
       </Route>
       <Route path='/debt/:id'>
-        <Debt debts={debts} currentUser={currentUser}/>
+        <Debt debts={debts} currentUser={currentUser} transactions={transactions} updateDebts={updateDebts}/>
       </Route>
       <Route path='/savingsForm'>
         <SavingForm/>
