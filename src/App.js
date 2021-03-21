@@ -67,7 +67,16 @@ function App() {
     }
   },[currentUser])
 
-  
+    function AddNewEarning(earning){
+      const newEarning = [...earnings, earning]
+      setEarnings(newEarning)
+    }
+
+    function updateEarning(newEarning) {
+      const newEarningAry = earnings.filter((earning) =>earning.id !== newEarning.id)
+      setEarnings([...newEarningAry, newEarning])
+    }
+    console.log(earnings)
 
 return (
     <div>
@@ -80,7 +89,7 @@ return (
         <Dashboard debts={debts} currentUser={currentUser} deposits={deposits}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget earnings={earnings} bills={bills}/>
+        <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings/>

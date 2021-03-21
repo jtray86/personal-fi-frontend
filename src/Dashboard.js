@@ -9,7 +9,10 @@ function Dashboard({debts, currentUser, deposits}){
     const params = useParams();
     const id = params.id;
 
+    console.log(debts)
+
 console.log(deposits)
+
     
     const debt_amounts = debts.map((debt) => debt.inital_amount)
     const inital_debt= debt_amounts.reduce((result, num) =>result+num)
