@@ -1,8 +1,13 @@
 import { Container, Header, Grid, Button, Table, Progress } from 'semantic-ui-react'
 
 
-function Savings(){
+function Savings({totalOutgoing, deposits, totalEmergancySavings}){
     
+    const emergancyFundFilter = deposits.filter((deposit)=> deposit.saving.saving_type === "Emergancy Savings")
+    
+    
+
+    const leftTillGoal = totalOutgoing - totalEmergancySavings
     return(
         <Container>
             <Header as='h2' attached='top' textAlign='center'>
@@ -18,15 +23,15 @@ function Savings(){
                         <Grid.Row>
                             <Grid.Column>
                                 <p>Current Total</p>
-                                <p>$</p>
+                                <p>${totalEmergancySavings}</p>
                             </Grid.Column>
                             <Grid.Column>
                                 <p>Goal</p>
-                                <p>$</p>
+                                <p>${totalOutgoing}</p>
                             </Grid.Column>
                             <Grid.Column>
                                 <p>Left To Save</p>
-                                <p>$</p>
+                                <p>${leftTillGoal}</p>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -34,8 +39,11 @@ function Savings(){
                     <br/>
                     <Grid columns={2} divided>
                         <Grid.Row>
-                            <Grid.Column>
-                                <p>some advice</p>
+                            <Grid.Column style={{"text-align": "center"}}>
+                                { leftTillGoal > 0 ?
+                                <p>Keep adding to your Emergancy fund. Having one Month worth of Emergancy fund while your paying off your Debit will give you some peace of mind ! </p>
+                                :
+                                <p>Congratulations! <br/>you have reached your Current Savings Goals! Now it's time to focus on paying down of your Debt. We will revisit Saving when all of your Debt is gone.</p>}
                             <Button inverted color='green' floated='right' size='mini'>
                                     Add To Emergancy Fund
                                 </Button>

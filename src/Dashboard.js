@@ -4,15 +4,17 @@ import { Header, Grid, Button, Progress, Segment } from 'semantic-ui-react'
 import Chart from "react-google-charts";
 
 
-function Dashboard({debts, currentUser, deposits}){
+function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmergancy}){
     const history = useHistory();
     const params = useParams();
     const id = params.id;
 
-    console.log(debts)
+    
 
-console.log(deposits)
 
+    const allOutgoingTotals = bills.map((bill)=> {return(bill.outgoing.projected)})
+    let currentOutgoingTotal = allOutgoingTotals.reduce((result, num) =>result+num)
+    setTotal(currentOutgoingTotal)
     
     const debt_amounts = debts.map((debt) => debt.inital_amount)
     const inital_debt= debt_amounts.reduce((result, num) =>result+num)
@@ -23,6 +25,12 @@ console.log(deposits)
     const debt_dif = inital_debt - current_debt
     const percentage_payed = debt_dif/inital_debt
     
+    const emergancyFundFilter = deposits.filter((deposit)=> deposit.saving.saving_type === "Emergancy Savings")
+    console.log(emergancyFundFilter)
+    const emergancy_savings_amounts = emergancyFundFilter.map((deposit) => deposit.saving.amount)
+    const TotalEmSaving= emergancy_savings_amounts.reduce((result, num) =>result+num)
+    console.log(TotalEmSaving)
+    setTotalEmergancy(TotalEmSaving)
     
     return(
     <Container>
@@ -50,10 +58,10 @@ console.log(deposits)
                     
                         <Grid.Column color="grey" width={10}>
                             <h4>Total Emergancy Fund Savings</h4>
-                            <p>$</p>
+                            <p>${TotalEmSaving}</p>
                             <h4>Emergancy Fund Goal</h4>
-                            <p>$</p>
-                            <Button inverted color='green' floated='right' size='mini'>
+                            <p>$ {currentOutgoingTotal}</p>
+                            <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/savings/${currentUser.id}`)}>
                                 Savings Page
                             </Button>
                         </Grid.Column>

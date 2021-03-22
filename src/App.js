@@ -20,6 +20,8 @@ function App() {
   const [bills, setBills] = useState([])
   const [deposits, setDeposits]= useState([])
   const [transactions, setTransactions]= useState([])
+  const [totalOutgoing, setTotalOutgoing] =useState(null)
+  const [totalEmergancySavings, setTotalEmergancySavings] =useState(null)
 
   // auto-login
   useEffect(() => {
@@ -67,14 +69,15 @@ function App() {
       )
     }
   },[currentUser])
-
+  
   useEffect(()=>{
     if (currentUser){
       fetch(`http://localhost:3000/transaction/${currentUser.id}`)
       .then((r)=>r.json())
-      .then((deposits) => 
-      setDeposits(deposits)
+      .then((transactions) => 
+      setTransactions(transactions)
       )
+     
     }
   },[currentUser])
 
@@ -97,6 +100,18 @@ function App() {
       const filteredDebt = debts.map((debt)=> debt.id !== updateDebt.id)
       setDebts([...filteredDebt, updateDebt])
     }
+
+    
+    
+    function setTotalGoal(currentOutgoingTotal) {
+      
+          setTotalOutgoing(currentOutgoingTotal)
+          
+    }
+          
+    function setTotalEmergancy(currentSavingsTotal) {
+      setTotalEmergancySavings(currentSavingsTotal)
+    }
     
 
 return (
@@ -107,13 +122,13 @@ return (
         <Home/> 
       </Route>
       <Route path='/dashboard/:id'>
-        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits}/>
+        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} setTotal={setTotalGoal}  bills={bills} totalOutgoing={totalOutgoing} setTotalEmergancy={setTotalEmergancy}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing}/>
+        <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing}/>
       </Route>
       <Route path='/savings/:id'>
-        <Savings/>
+        <Savings deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} />
       </Route>
       <Route path='/debt/:id'>
         <Debt debts={debts} currentUser={currentUser} transactions={transactions} updateDebts={updateDebts}/>
