@@ -16,6 +16,7 @@ function App() {
 
   const [currentUser, setCurrentUser] = useState(null);
   const [debts, setDebts] = useState([])
+  const [savings, setSavings] = useState([])
   const [earnings, setEarnings] = useState([])
   const [bills, setBills] = useState([])
   const [deposits, setDeposits]= useState([])
@@ -36,6 +37,16 @@ function App() {
       .then((r)=>r.json())
       .then((debts) => 
       setDebts(debts)
+      )
+    }
+  },[currentUser])
+
+  useEffect(()=>{
+    if (currentUser){
+      fetch(`http://localhost:3000/saving/${currentUser.id}`)
+      .then((r)=>r.json())
+      .then((savings) => 
+      setSavings(savings)
       )
     }
   },[currentUser])
@@ -69,6 +80,8 @@ function App() {
       )
     }
   },[currentUser])
+
+  
   
   useEffect(()=>{
     if (currentUser){
@@ -104,7 +117,7 @@ function App() {
     
     
     function setTotalGoal(currentOutgoingTotal) {
-      
+
           setTotalOutgoing(currentOutgoingTotal)
           
     }
@@ -112,7 +125,17 @@ function App() {
     function setTotalEmergancy(currentSavingsTotal) {
       setTotalEmergancySavings(currentSavingsTotal)
     }
-    
+
+    function handleAddDeposits(newDeposit){
+      const newDepositAry = [...deposits, newDeposit]
+      setDeposits(newDepositAry)
+    }
+    function updateSavingsTotal(SavingUpdatedTotal){
+      const filteredSaving = savings.map((saving)=> saving.id !== SavingUpdatedTotal.id)
+      setSavings([...filteredSaving, SavingUpdatedTotal])
+
+    }
+    console.log(totalEmergancySavings)
 
 return (
     <div>
@@ -122,13 +145,13 @@ return (
         <Home/> 
       </Route>
       <Route path='/dashboard/:id'>
-        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} setTotal={setTotalGoal}  bills={bills} totalOutgoing={totalOutgoing} setTotalEmergancy={setTotalEmergancy}/>
+        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings} setTotal={setTotalGoal}  bills={bills} totalOutgoing={totalOutgoing} setTotalEmergancy={setTotalEmergancy}/>
       </Route>
       <Route path='/budget/:id'>
         <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing}/>
       </Route>
       <Route path='/savings/:id'>
-        <Savings deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} />
+        <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>
       </Route>
       <Route path='/debt/:id'>
         <Debt debts={debts} currentUser={currentUser} transactions={transactions} updateDebts={updateDebts}/>

@@ -4,12 +4,12 @@ import { Header, Grid, Button, Progress, Segment } from 'semantic-ui-react'
 import Chart from "react-google-charts";
 
 
-function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmergancy}){
+function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmergancy, savings}){
     const history = useHistory();
     const params = useParams();
     const id = params.id;
 
-    
+    console.log(deposits)
 
 
     const allOutgoingTotals = bills.map((bill)=> {return(bill.outgoing.projected)})
@@ -25,9 +25,14 @@ function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmerg
     const debt_dif = inital_debt - current_debt
     const percentage_payed = debt_dif/inital_debt
     
-    const emergancyFundFilter = deposits.filter((deposit)=> deposit.saving.saving_type === "Emergancy Savings")
-    console.log(emergancyFundFilter)
-    const emergancy_savings_amounts = emergancyFundFilter.map((deposit) => deposit.saving.amount)
+    const emergancyFundFilter = savings.filter((saving)=> saving.saving_type === "Emergancy Savings")
+    
+    
+    // const allIncomeSavings = earnings.map((earning) =>earning.income.name) 
+    // const uniqIncomeNames = allIncomeNames.filter((name, idx)=> allIncomeNames.indexOf(name) === idx)
+    
+    const emergancy_savings_amounts = emergancyFundFilter.map((saving) => saving.amount)
+    console.log(emergancy_savings_amounts)
     const TotalEmSaving= emergancy_savings_amounts.reduce((result, num) =>result+num)
     console.log(TotalEmSaving)
     setTotalEmergancy(TotalEmSaving)

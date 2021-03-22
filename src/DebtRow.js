@@ -10,6 +10,7 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
         interest,
         in_collection
     } = debt
+    
     const [transactionForm, setTransactionForm] = useState({
         user_id: currentUser.id,
         debt_id: debt.id,
