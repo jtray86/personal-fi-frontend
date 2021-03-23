@@ -1,5 +1,7 @@
 import { Container, Header, Grid, Button, Table, Progress, Modal, Form, currentUser } from 'semantic-ui-react'
 import {useState} from 'react'
+import SavingForm from './SavingForm'
+import SavingRow from './SavingsRow'
 
 function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, handleAddDeposits, updateSavingsTotal, setTotalEmergancy, savings }){
     const [open, setOpen] = useState(false)
@@ -16,7 +18,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
     
     const leftTillGoal = totalOutgoing - totalEmergancySavings
 
-    const percenageToGoal = totalOutgoing/totalEmergancySavings
+    const percenageToGoal = (totalEmergancySavings/totalOutgoing) *100
 
     const depositNameOptions = uniqSavingNames.map((saving) => {
         
@@ -90,7 +92,25 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                     })
                     
     }
-        
+        const retiermentFilter = savings.filter((saving)=> saving.saving_type === "Retirement")
+        const retierment = retiermentFilter.map((saving)=>{
+            return(
+                <SavingRow
+                    key={saving.id}
+                    saving ={saving}
+                />
+            )
+        })
+
+        const otherFilter = savings.filter((saving)=> saving.saving_type === "Other")
+        const other = otherFilter.map((saving)=>{
+            return(
+                <SavingRow
+                    key={saving.id}
+                    saving ={saving}
+                />
+            )
+        })
 
     return(
         <Container>
@@ -164,7 +184,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                             <Grid.Column>
                                 <p>Savings Progress</p>
                                 <div style={{height:"120px", 'padding-top': '20%'}}>
-                                <Progress percent={percenageToGoal.toFixed(2)} size='small' color='green' progress />
+                                <Progress percent={percenageToGoal.toFixed()} size='small' color='green' progress />
                                     
                                 </div>
                             </Grid.Column>
@@ -178,17 +198,12 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                         <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>Name</Table.HeaderCell>
-                            <Table.HeaderCell>Status</Table.HeaderCell>
-                            <Table.HeaderCell>Notes</Table.HeaderCell>
+                            <Table.HeaderCell>Amount</Table.HeaderCell>
                         </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
-                        <Table.Row>
-                            <Table.Cell>John</Table.Cell>
-                            <Table.Cell>Approved</Table.Cell>
-                            <Table.Cell>None</Table.Cell>
-                        </Table.Row>
+                        {retierment}
                         </Table.Body>
                     </Table>
                     </Grid.Row>
@@ -197,16 +212,12 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell>Name</Table.HeaderCell>
-                                <Table.HeaderCell>Status</Table.HeaderCell>
+                                <Table.HeaderCell>Amount</Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
 
                         <Table.Body>
-                            <Table.Row >
-                                <Table.Cell>Under $1000</Table.Cell>
-                                <Table.Cell>stuff</Table.Cell>
-                                
-                            </Table.Row>
+                            {other}
                         </Table.Body>
                     </Table>
                     </Grid.Row>

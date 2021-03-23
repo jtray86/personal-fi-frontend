@@ -35,7 +35,7 @@ console.log(actualIncome)
                     <Table.Cell>{income.projected}</Table.Cell>
                     <Table.Cell>{actual ? actual : 
                     <Form onSubmit={(e)=>{handleEarningUpdate(e)}}>
-                        <Form.Input fluid label='Income Name' name='actual' value={actualIncome} onChange={(e)=>handleActualIncome(e)} />
+                        <Form.Input fluid  name='actual' value={actualIncome} onChange={(e)=>handleActualIncome(e)} />
                     </Form>
                     }</Table.Cell>
                     <Table.Cell>{pay_day}</Table.Cell>

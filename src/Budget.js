@@ -7,9 +7,10 @@ import IncomeRow from "./IncomeRow";
 import { useState } from "react"
 
 
-function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing}){
+function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated}){
     const [open, setOpen] = useState(false)
     const [addNewBtn, setaddNewBtn] = useState(false)
+    const [deleteIcon, setDeleteIcon] = useState(false)
     const [addProjectedForm, setAddProjectedForm] = useState({
         user_id: currentUser.id,
         income_id: "",
@@ -47,6 +48,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 key={bill.id}
                 bill={bill}
                 updateOutgoing={updateOutgoing}
+                deleteIcon={deleteIcon}
+                handleDeleteUpdated={handleDeleteUpdated}
             />
         )
     })
@@ -282,6 +285,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
             <Table celled>
                 <Table.Header>
                 <Table.Row>
+                    {deleteIcon ? <Table.HeaderCell>Delete</Table.HeaderCell> : null}
                     <Table.HeaderCell>Name</Table.HeaderCell>
                     <Table.HeaderCell>Projected</Table.HeaderCell>
                     <Table.HeaderCell>Actaul</Table.HeaderCell>
@@ -323,7 +327,9 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 
                 </Table.Body>
             </Table>
-            
+            <Button inverted color='green' floated='right' centered size='mini'onClick={()=>setDeleteIcon(!deleteIcon)}>
+                        Delete a Budget Item
+                    </Button>
         </Container>
         
     )

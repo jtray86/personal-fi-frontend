@@ -23,7 +23,7 @@ function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmerg
     const current_debt= debt_current_amounts.reduce((result, num) =>result+num)
 
     const debt_dif = inital_debt - current_debt
-    const percentage_payed = debt_dif/inital_debt
+    const percentage_payed = (debt_dif/inital_debt)*100
     
     const emergancyFundFilter = savings.filter((saving)=> saving.saving_type === "Emergancy Savings")
     
@@ -47,7 +47,7 @@ function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmerg
                         <Grid.Column >
                             <Segment floated='right' style={{width: "75%", "margin-top": "25px"}} >
                                 <Header>Progress</Header>
-                                <Progress percent={percentage_payed.toFixed(2)} size='small' color='green' progress />
+                                <Progress percent={percentage_payed.toFixed()} size='small' color='green' progress />
                             </Segment>
                             <h4>Total Inital Debt</h4>
                                 <p>${inital_debt}</p>

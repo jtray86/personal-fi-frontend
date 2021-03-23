@@ -110,10 +110,10 @@ function App() {
     }
 
     function updateDebts(updateDebt) {
-      const filteredDebt = debts.map((debt)=> debt.id !== updateDebt.id)
+      const filteredDebt = debts.filter((debt)=> debt.id !== updateDebt.id)
       setDebts([...filteredDebt, updateDebt])
     }
-
+    console.log(debts)
     
     
     function setTotalGoal(currentOutgoingTotal) {
@@ -135,6 +135,11 @@ function App() {
       setSavings([...filteredSaving, SavingUpdatedTotal])
 
     }
+
+    function handleDeleteUpdated(deletedOutgoing){
+      const newBillsAry = bills.filter((bill)=>bill.outgoing.id !== deletedOutgoing.id)
+      setBills([...newBillsAry])
+    }
     console.log(totalEmergancySavings)
 
 return (
@@ -148,7 +153,7 @@ return (
         <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings} setTotal={setTotalGoal}  bills={bills} totalOutgoing={totalOutgoing} setTotalEmergancy={setTotalEmergancy}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing}/>
+        <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} handleDeleteUpdated={handleDeleteUpdated}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>

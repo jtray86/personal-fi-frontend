@@ -1,8 +1,10 @@
 import { Table, Icon, Modal, Button, Header, Form } from 'semantic-ui-react'
 import {useState} from 'react'
+import {  useHistory } from "react-router-dom";
 
 function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
     const [open, setOpen] = useState(false)
+    const history = useHistory();
     const{
         name,
         inital_amount,
@@ -10,7 +12,7 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
         interest,
         in_collection
     } = debt
-    
+
     const [transactionForm, setTransactionForm] = useState({
         user_id: currentUser.id,
         debt_id: debt.id,
@@ -41,14 +43,15 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
                 .then((r) => r.json())
                 .then((newTransaction) => {
                     updateDebt(newTransaction.amount)
-                
+                    console.log(newTransaction)
+                    
                 })
                 
         setOpen(false)
     }
 
     function updateDebt(paymentAmount){
-        const updateCurrentAmount=current_amount - paymentAmount
+        const updateCurrentAmount= current_amount - paymentAmount
         fetch(`http://localhost:3000/debt/${debt.id}`, {
                 method: "PATCH",
                 headers: {
@@ -57,9 +60,9 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
                 body: JSON.stringify({current_amount: updateCurrentAmount}),
                 })
                 .then((r) => r.json())
-                .then((updateDebt) => {
-                    updateDebts(updateDebt)
-                    console.log(updateDebt)})
+                .then((Debt) => {
+                    updateDebts(Debt)
+                    })
     }
 
     return(
@@ -97,6 +100,7 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
                             <Button color='green' onClick={(e)=>handleTransactionSubmit(e)}>Submit</Button>
                         </Modal.Actions>
                         </Modal>
+                        
         </Table.Row>
     )
 }

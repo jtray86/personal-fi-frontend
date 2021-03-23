@@ -15,9 +15,9 @@ function Debt({debts, currentUser, transactions, updateDebts}){
     const current_debt= debt_current_amounts.reduce((result, num) =>result+num)
 
     const debt_dif = inital_debt - current_debt
-    const percentage_payed = debt_dif/inital_debt
+    const percentage_payed = (debt_dif/inital_debt)*100
 
-    const under_thousand = debts.filter((debt) => debt.current_amount < 1000)
+    const under_thousand = debts.filter((debt) => debt.current_amount < 1000 && debt.current_amount !== 0)
 
     const debt_row_under = under_thousand.map((debt) =>
     {
@@ -35,7 +35,7 @@ function Debt({debts, currentUser, transactions, updateDebts}){
     }
     )
 
-    const larger_debts = debts.filter((debt) => debt.current_amount > 1000)
+    const larger_debts = debts.filter((debt) => debt.current_amount > 1000 )
 
     const debt_row = larger_debts.map((debt) =>
     {
@@ -60,6 +60,7 @@ function Debt({debts, currentUser, transactions, updateDebts}){
             <DebtRow
             key={debt.id}
             debt={debt}
+            currentUser={currentUser}
             />
         )
     }
@@ -115,10 +116,10 @@ function Debt({debts, currentUser, transactions, updateDebts}){
                     <Grid.Column width={5} floated='right'>
                         <br/>
                         <Header textAlign='center'>Total Inital Debt</Header>
-                        <p>${inital_debt}</p>
+                        <p>${inital_debt}</p><span>${current_debt}</span>
                         <br/> 
                         <Segment>
-                            <Progress percent={percentage_payed.toFixed(2)} size='small' color='green' progress >
+                            <Progress percent={percentage_payed.toFixed()} size='small' color='green' progress >
                                 Paid off
                             </Progress>
                         </Segment>
@@ -128,6 +129,13 @@ function Debt({debts, currentUser, transactions, updateDebts}){
                     <Grid.Column width={7}>
                         <p>Paid Off</p>
                         <Table celled>
+                            <Table.Header>
+                                <Table.HeaderCell>Name</Table.HeaderCell>
+                                <Table.HeaderCell>Inital Amount</Table.HeaderCell>
+                                <Table.HeaderCell>Current Amount</Table.HeaderCell>
+                                <Table.HeaderCell>Interest</Table.HeaderCell>
+                                <Table.HeaderCell>In Collections</Table.HeaderCell>
+                            </Table.Header>
                             <Table.Body>
                             {paid_row}
                             </Table.Body>
