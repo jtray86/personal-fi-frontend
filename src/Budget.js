@@ -7,7 +7,7 @@ import IncomeRow from "./IncomeRow";
 import { useState } from "react"
 
 
-function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated}){
+function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, handleGapChange, theGap}){
     const [open, setOpen] = useState(false)
     const [addNewBtn, setaddNewBtn] = useState(false)
     const [deleteIcon, setDeleteIcon] = useState(false)
@@ -159,12 +159,15 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 // history.push(`/trip/${trip.id}`)
         setOpen(false)
     }
-    console.log(newIncomeForm)
+    
 
     return(
         <Container>
-            <Grid>
-                <Grid.Column width={6}>
+            <Header as='h2' attached='top' textAlign='center'>
+                Budget
+            </Header>
+            <Grid celled>
+                <Grid.Column width={8} >
                     <Table celled>
                         <Table.Header>
                             <Table.Row>
@@ -190,14 +193,14 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                         >
                         <Modal.Header>Add Pojected Income
                             <Button inverted color='green' floated='right' centered size='mini' onClick={()=>setaddNewBtn(true)}>
-                                New source of Income
+                                Add New source of Income
                             </Button>
                     </Modal.Header>
                         <Modal.Content>
                             <Modal.Description>
                             {addNewBtn ?
                                 <Form onSubmit={(e) => {handleAddIncome(e)}}>
-                                    <Form.Field label='An HTML <select>' control='select' name='income_type' onChange={(e)=>handleIncomeSelect(e)} >
+                                    <Form.Field label='Select Income Type' control='select' name='income_type' onChange={(e)=>handleIncomeSelect(e)} >
                                         <option ></option>
                                         <option name="income_type" value='W2 Job'>W2 Job</option> 
                                         <option name="income_type" value='Freelance'>Freelance</option>
@@ -215,7 +218,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                                 
                                 :
                                 <Form onSubmit={(e) => {handleAddProjected(e)}}>
-                                    <Form.Field label='An HTML <select>' control='select' name='income_id' onChange={(e)=>handleProjectedIncome(e)} >
+                                    <Form.Field label='Select Income Name' control='select' name='income_id' onChange={(e)=>handleProjectedIncome(e)} >
                                     <option ></option> 
                                         {incomeNameOptions }
                                     </Form.Field>
@@ -248,10 +251,20 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                         </Modal>
 
                 </Grid.Column>
-                <Grid.Column floated='center' width= {5}>
+                <Grid.Column floated='center' width= {3}style={{"text-align": "center"}}>
                     <Header style={{"text-align": "center"}}>
                         The Gap
                     </Header>
+                    
+                    <p>$</p>
+                    <hr/>
+                    
+                    <h5>Projected Income</h5>
+                    <p>$</p>
+                    <hr/>
+                    <h5>Projected Outgoing</h5>
+                    <p>$</p>
+                    <hr/>
 
                 </Grid.Column>
                 <Grid.Column floated='right' width= {5}>
@@ -259,7 +272,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                         Pie Chart
                     </Header>
                         <Chart
-                            width={'300px'}
+                            width={'100%'}
                             height={'300px'}
                             chartType="PieChart"
                             loader={<div>Loading Chart</div>}
@@ -288,7 +301,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     {deleteIcon ? <Table.HeaderCell>Delete</Table.HeaderCell> : null}
                     <Table.HeaderCell>Name</Table.HeaderCell>
                     <Table.HeaderCell>Projected</Table.HeaderCell>
-                    <Table.HeaderCell>Actaul</Table.HeaderCell>
+                    <Table.HeaderCell>Actual</Table.HeaderCell>
                     <Table.HeaderCell>Due Date</Table.HeaderCell>
                 </Table.Row>
                 </Table.Header>

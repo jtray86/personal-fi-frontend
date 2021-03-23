@@ -39,12 +39,14 @@ function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmerg
     
     return(
     <Container>
-            
+            <Header as='h2' attached='top' textAlign='center'>
+                Dashboard
+            </Header>
             <Grid celled >
                 <Grid.Column floated='left' width={11}>
                     <Grid >
                     <Grid.Row>
-                        <Grid.Column >
+                        <Grid.Column style={{"border-bottom": "solid .5px lightgray", 'padding-bottom': "7px"}} >
                             <Segment floated='right' style={{width: "75%", "margin-top": "25px"}} >
                                 <Header>Progress</Header>
                                 <Progress percent={percentage_payed.toFixed()} size='small' color='green' progress />
@@ -61,7 +63,7 @@ function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmerg
 
                     <Grid.Row>
                     
-                        <Grid.Column color="grey" width={10}>
+                        <Grid.Column style={{"border-right": "solid .5px lightgray"}} width={10}>
                             <h4>Total Emergancy Fund Savings</h4>
                             <p>${TotalEmSaving}</p>
                             <h4>Emergancy Fund Goal</h4>
@@ -76,11 +78,11 @@ function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmerg
                     </Grid.Row>
                     </Grid>
                 </Grid.Column>
-                <Grid.Column floated='right' style={{margin: 0}} width={5}>
-                    <h4 style={{"text-align": "center"}}>Budget</h4>
+                <Grid.Column floated='right' style={{margin: 0}} width={5} style={{"text-align": "center"}}>
+                    <h4 style={{'margin-bottom':'0px'}} >Budget</h4>
                     <Chart
                             width={'100%'}
-                            height={'300px'}
+                            height={'200px'}
                             chartType="PieChart"
                             loader={<div>Loading Chart</div>}
                             data={[
@@ -96,6 +98,18 @@ function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmerg
                             }}
                             rootProps={{ 'data-testid': '1' }}
                             />
+                            <h4 sytle={{'margin-top': '0px'}}>The Gap</h4>
+                            <p>$</p>
+                            <div style={{display: "inline-flex", "padding-bottom": "6px"}}>
+                                <div style={{"padding-right": "4px"}}>
+                                    <p>Projected Income</p>
+                                    <p>$</p>
+                                </div>
+                                <div style={{"padding-left": "4px", "border-left":"solid .2px lightgray"}}>
+                                    <p >Projected Outgoing</p>
+                                    <p>$</p>
+                                </div>
+                            </div>
                             <Button inverted color='green' onClick={()=> history.push(`/budget/${currentUser.id}`)}>
                                 Budget
                             </Button>

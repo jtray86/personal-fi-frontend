@@ -67,8 +67,8 @@ console.log(actualOutgoing)
                         </Modal.Actions>
                         </Modal>
             <Table.Cell>{outgoing.name}</Table.Cell>
-            <Table.Cell>{outgoing.projected}</Table.Cell>
-            <Table.Cell>{actual ? actual : 
+            <Table.Cell>${outgoing.projected}</Table.Cell>
+            <Table.Cell>{actual ? `$${actual}` : 
                     <Form onSubmit={(e)=>{handleOutgoingUpdate(e)}}>
                         <Form.Input fluid  name='actual' value={actualOutgoing} onChange={(e)=>handleActualOutgoing(e)} />
                     </Form>

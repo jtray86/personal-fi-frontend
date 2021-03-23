@@ -32,8 +32,8 @@ console.log(actualIncome)
     return(
         <Table.Row>
                     <Table.Cell>{income.name}</Table.Cell>
-                    <Table.Cell>{income.projected}</Table.Cell>
-                    <Table.Cell>{actual ? actual : 
+                    <Table.Cell>${income.projected}</Table.Cell>
+                    <Table.Cell>{actual ?  `$${actual}` : 
                     <Form onSubmit={(e)=>{handleEarningUpdate(e)}}>
                         <Form.Input fluid  name='actual' value={actualIncome} onChange={(e)=>handleActualIncome(e)} />
                     </Form>

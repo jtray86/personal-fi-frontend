@@ -23,6 +23,7 @@ function App() {
   const [transactions, setTransactions]= useState([])
   const [totalOutgoing, setTotalOutgoing] =useState(null)
   const [totalEmergancySavings, setTotalEmergancySavings] =useState(null)
+  const [theGap, setTheGap]= useState({gap:'',income:'',outgoing:''})
 
   // auto-login
   useEffect(() => {
@@ -140,7 +141,10 @@ function App() {
       const newBillsAry = bills.filter((bill)=>bill.outgoing.id !== deletedOutgoing.id)
       setBills([...newBillsAry])
     }
-    console.log(totalEmergancySavings)
+  
+    function handleGapChange(){
+
+    }
 
 return (
     <div>
@@ -153,7 +157,7 @@ return (
         <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings} setTotal={setTotalGoal}  bills={bills} totalOutgoing={totalOutgoing} setTotalEmergancy={setTotalEmergancy}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} handleDeleteUpdated={handleDeleteUpdated}/>
+        <Budget theGap={theGap} handleGapChange={handleGapChange} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} handleDeleteUpdated={handleDeleteUpdated}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>

@@ -88,7 +88,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                 .then((r) => r.json())
                 .then((updateSaving) => {
                     updateSavingsTotal(updateSaving)
-                    console.log(updateSaving)
+                    
                     })
                     
     }
@@ -163,7 +163,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                                         <Header>Default Profile Image</Header>
                                         {/* <Form onSubmit={(e)=>{handleTransactionSubmit(e)}}> */}
                                         <Form onSubmit={(e)=>handleDepositSubmit(e)}>  
-                                        <Form.Field label='An HTML <select>' control='select' name='saving_id' onChange={(e)=>handleDepositSelect(e)} >
+                                        <Form.Field label='Savings Account Name' control='select' name='saving_id' onChange={(e)=>handleDepositSelect(e)} >
                                             <option ></option>
                                             {depositNameOptions}
                                         </Form.Field>  

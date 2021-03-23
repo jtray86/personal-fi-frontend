@@ -68,9 +68,9 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
     return(
         <Table.Row>
                     <Table.Cell>{name}</Table.Cell>
-                    <Table.Cell>{inital_amount}</Table.Cell>
-                    <Table.Cell>{current_amount}</Table.Cell>
-                    <Table.Cell>{interest}</Table.Cell>
+                    <Table.Cell>${inital_amount}</Table.Cell>
+                    <Table.Cell>${current_amount}</Table.Cell>
+                    <Table.Cell>{interest}%</Table.Cell>
                     <Table.Cell>{in_collection ? "Yes" : "No"}</Table.Cell>
                     {payIcon ?
                     <Table.Cell><Icon name='money bill alternate outline' onClick={()=>setOpen(true)} /></Table.Cell>
