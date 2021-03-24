@@ -168,7 +168,21 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 // history.push(`/trip/${trip.id}`)
         setOpen(false)
     }
-    
+
+    // Pie Chart & Type Filters //
+    const filterHousing = outgoing.filter((outgoing)=> outgoing.type === "Housing")
+
+    const filterUtilities = outgoing.filter((outgoing)=> outgoing.type === "Utilities")
+
+    const filterTransportation = outgoing.filter((outgoing)=> outgoing.type === "Transportation")
+
+    const filterInsurance = outgoing.filter((outgoing)=> outgoing.type === "Insurance")
+
+    const filterDebt = outgoing.filter((outgoing)=> outgoing.type === "Debt")
+
+    const filterLiving = outgoing.filter((outgoing)=> outgoing.type === "Living")
+
+    const filterMiscellaneous = outgoing.filter((outgoing)=> outgoing.type === "Miscellaneous")
 
     return(
         <Container>
