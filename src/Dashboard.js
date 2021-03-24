@@ -2,6 +2,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { Container } from 'semantic-ui-react'
 import { Header, Grid, Button, Progress, Segment } from 'semantic-ui-react'
 import Chart from "react-google-charts";
+import PieChart from'./PieChart'
 
 
 function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTotalOutgoing, bills, setTotalEmergancy, savings}){
@@ -80,24 +81,7 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                 </Grid.Column>
                 <Grid.Column floated='right' style={{margin: 0}} width={5} style={{"text-align": "center"}}>
                     <h4 style={{'margin-bottom':'0px'}} >Budget</h4>
-                    <Chart
-                            width={'100%'}
-                            height={'200px'}
-                            chartType="PieChart"
-                            loader={<div>Loading Chart</div>}
-                            data={[
-                                ['Task', 'Hours per Day'],
-                                ['Work', 11],
-                                ['Eat', 2],
-                                ['Commute', 2],
-                                ['Watch TV', 2],
-                                ['Sleep', 7],
-                            ]}
-                            options={{
-                                title: 'My Daily Activities',
-                            }}
-                            rootProps={{ 'data-testid': '1' }}
-                            />
+                    <PieChart outgoing={outgoing}/>
                             <h4 sytle={{'margin-top': '0px'}}>The Gap</h4>
                             <p>${gapTotal}</p>
                             <div style={{display: "inline-flex", "padding-bottom": "6px"}}>
