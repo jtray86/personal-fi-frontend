@@ -170,19 +170,33 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
     }
 
     // Pie Chart & Type Filters //
-    const filterHousing = outgoing.filter((outgoing)=> outgoing.type === "Housing")
+    const filterHousing = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Housing")
+    const housingCostAry = filterHousing?.map((house)=> house.projected)
+    const housingCost = housingCostAry?.reduce((result, num) =>result+num, 0)
 
-    const filterUtilities = outgoing.filter((outgoing)=> outgoing.type === "Utilities")
+    const filterUtilities = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Utilities")
+    const utilitiesCostAry = filterUtilities?.map((utility)=> utility.projected)
+    const utilitiesCost = utilitiesCostAry?.reduce((result, num) =>result+num, 0)
 
-    const filterTransportation = outgoing.filter((outgoing)=> outgoing.type === "Transportation")
+    const filterTransportation = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Transportation")
+    const transportationCostAry = filterTransportation?.map((trans)=> trans.projected)
+    const transportationCost = transportationCostAry?.reduce((result, num) =>result+num, 0)
 
-    const filterInsurance = outgoing.filter((outgoing)=> outgoing.type === "Insurance")
+    const filterInsurance = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Insurance")
+    const insuranceCostAry = filterInsurance?.map((insurance_inst)=> insurance_inst.projected)
+    const insuranceCost = insuranceCostAry?.reduce((result, num) =>result+num, 0)
 
-    const filterDebt = outgoing.filter((outgoing)=> outgoing.type === "Debt")
+    const filterDebt = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Debt")
+    const debtCostAry = filterDebt?.map((debt_inst)=> debt_inst.projected)
+    const debtCost = debtCostAry?.reduce((result, num) =>result+num, 0)
 
-    const filterLiving = outgoing.filter((outgoing)=> outgoing.type === "Living")
+    const filterLiving = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Living")
+    const livingCostAry = filterLiving?.map((living_inst)=> living_inst.projected)
+    const livingCost = livingCostAry?.reduce((result, num) =>result+num, 0)
 
-    const filterMiscellaneous = outgoing.filter((outgoing)=> outgoing.type === "Miscellaneous")
+    const filterMiscellaneous = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Miscellaneous")
+    const miscellaneousCostAry = filterMiscellaneous?.map((stuff)=> stuff.projected)
+    const miscellaneousCost = miscellaneousCostAry?.reduce((result, num) =>result+num, 0)
 
     return(
         <Container>
@@ -300,8 +314,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                             chartType="PieChart"
                             loader={<div>Loading Chart</div>}
                             data={[
-                                ['Task', 'Hours per Day'],
-                                ['Work', 11],
+                                ['Task', 'percent'],
+                                ['Housing', {housingCost}],
                                 ['Eat', 2],
                                 ['Commute', 2],
                                 ['Watch TV', 2],
