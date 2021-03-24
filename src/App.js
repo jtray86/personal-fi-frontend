@@ -24,6 +24,7 @@ function App() {
   const [totalOutgoing, setTotalOutgoing] =useState(null)
   const [totalEmergancySavings, setTotalEmergancySavings] =useState(null)
   const [theGap, setTheGap]= useState({gap:'',income:'',outgoing:''})
+  const [outgoing, setOutgoing]=useState([])
 
   // auto-login
   useEffect(() => {
@@ -90,6 +91,17 @@ function App() {
       .then((r)=>r.json())
       .then((transactions) => 
       setTransactions(transactions)
+      )
+     
+    }
+  },[currentUser])
+
+  useEffect(()=>{
+    if (currentUser){
+      fetch(`http://localhost:3000/outgoing/${currentUser.id}`)
+      .then((r)=>r.json())
+      .then((outgoing) => 
+      setOutgoing(outgoing)
       )
      
     }
