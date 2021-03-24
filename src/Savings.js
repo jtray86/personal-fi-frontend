@@ -92,6 +92,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                     })
                     
     }
+    console.log(savings)
         const retiermentFilter = savings.filter((saving)=> saving.saving_type === "Retirement")
         const retierment = retiermentFilter.map((saving)=>{
             return(
@@ -127,15 +128,15 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                         <Grid.Row>
                             <Grid.Column>
                                 <p>Current Total</p>
-                                <p>${totalEmergancySavings}</p>
+                                <p>${totalEmergancySavings.toFixed(2)}</p>
                             </Grid.Column>
                             <Grid.Column>
                                 <p>Goal</p>
-                                <p>${totalOutgoing}</p>
+                                <p>${totalOutgoing.toFixed(2)}</p>
                             </Grid.Column>
                             <Grid.Column>
                                 <p>Left To Save</p>
-                                <p>${leftTillGoal}</p>
+                                <p>${leftTillGoal.toFixed(2)}</p>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
@@ -156,11 +157,11 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                                     onOpen={() => setOpen(true)}
                                     open={open}
                                     >
-                                    <Modal.Header>Select a Photo</Modal.Header>
+                                    <Modal.Header>Add To Emergancy Fund</Modal.Header>
                                     <Modal.Content >
                                         
                                         <Modal.Description>
-                                        <Header>Default Profile Image</Header>
+                                        
                                         {/* <Form onSubmit={(e)=>{handleTransactionSubmit(e)}}> */}
                                         <Form onSubmit={(e)=>handleDepositSubmit(e)}>  
                                         <Form.Field label='Savings Account Name' control='select' name='saving_id' onChange={(e)=>handleDepositSelect(e)} >

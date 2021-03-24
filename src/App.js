@@ -103,9 +103,20 @@ function App() {
       .then((outgoing) => 
       setOutgoing(outgoing)
       )
-     
+      
+   
     }
   },[currentUser])
+
+  console.log(outgoing)
+
+  function settingTotalOutgoing(currentOutgoingTotal) {
+
+      setTotalOutgoing(currentOutgoingTotal)
+  }
+
+  console.log(totalOutgoing)
+  
 
     function AddNewEarning(earning){
       const newEarning = [...earnings, earning]
@@ -126,14 +137,7 @@ function App() {
       const filteredDebt = debts.filter((debt)=> debt.id !== updateDebt.id)
       setDebts([...filteredDebt, updateDebt])
     }
-    console.log(debts)
     
-    
-    function setTotalGoal(currentOutgoingTotal) {
-
-          setTotalOutgoing(currentOutgoingTotal)
-          
-    }
           
     function setTotalEmergancy(currentSavingsTotal) {
       setTotalEmergancySavings(currentSavingsTotal)
@@ -144,7 +148,7 @@ function App() {
       setDeposits(newDepositAry)
     }
     function updateSavingsTotal(SavingUpdatedTotal){
-      const filteredSaving = savings.map((saving)=> saving.id !== SavingUpdatedTotal.id)
+      const filteredSaving = savings.filter((saving)=> saving.id !== SavingUpdatedTotal.id)
       setSavings([...filteredSaving, SavingUpdatedTotal])
 
     }
@@ -152,6 +156,9 @@ function App() {
     function handleDeleteUpdated(deletedOutgoing){
       const newBillsAry = bills.filter((bill)=>bill.outgoing.id !== deletedOutgoing.id)
       setBills([...newBillsAry])
+
+      const newOutgoingAry = outgoing.filter((outgoing_inst) => outgoing_inst.id !== deletedOutgoing.id)
+      setOutgoing([...newOutgoingAry])
     }
   
     function handleGapChange(){
@@ -166,10 +173,10 @@ return (
         <Home/> 
       </Route>
       <Route path='/dashboard/:id'>
-        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings} setTotal={setTotalGoal}  bills={bills} totalOutgoing={totalOutgoing} setTotalEmergancy={setTotalEmergancy}/>
+        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings}  bills={bills} outgoing={outgoing} setTotalEmergancy={setTotalEmergancy} settingTotalOutgoing={settingTotalOutgoing}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget theGap={theGap} handleGapChange={handleGapChange} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} handleDeleteUpdated={handleDeleteUpdated}/>
+        <Budget  handleGapChange={handleGapChange} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>

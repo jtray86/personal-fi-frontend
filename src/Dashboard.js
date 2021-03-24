@@ -4,17 +4,17 @@ import { Header, Grid, Button, Progress, Segment } from 'semantic-ui-react'
 import Chart from "react-google-charts";
 
 
-function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmergancy, savings}){
+function Dashboard({debts, currentUser, deposits, outgoing, settingTotalOutgoing, bills, setTotalEmergancy, savings}){
     const history = useHistory();
     const params = useParams();
     const id = params.id;
 
-    console.log(deposits)
+    console.log(outgoing)
 
 
-    const allOutgoingTotals = bills.map((bill)=> {return(bill.outgoing.projected)})
+    const allOutgoingTotals = outgoing.map((outgoing_inst)=> outgoing_inst.projected)
     let currentOutgoingTotal = allOutgoingTotals.reduce((result, num) =>result+num)
-    setTotal(currentOutgoingTotal)
+    settingTotalOutgoing(currentOutgoingTotal)
     
     const debt_amounts = debts.map((debt) => debt.inital_amount)
     const inital_debt= debt_amounts.reduce((result, num) =>result+num)
@@ -107,7 +107,7 @@ function Dashboard({debts, currentUser, deposits, setTotal, bills, setTotalEmerg
                                 </div>
                                 <div style={{"padding-left": "4px", "border-left":"solid .2px lightgray"}}>
                                     <p >Projected Outgoing</p>
-                                    <p>$</p>
+                                    <p>${currentOutgoingTotal}</p>
                                 </div>
                             </div>
                             <Button inverted color='green' onClick={()=> history.push(`/budget/${currentUser.id}`)}>

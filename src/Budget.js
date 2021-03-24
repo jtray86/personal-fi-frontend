@@ -7,7 +7,7 @@ import IncomeRow from "./IncomeRow";
 import { useState } from "react"
 
 
-function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, handleGapChange, theGap}){
+function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, handleGapChange, theGap, totalOutgoing, settingTotalOutgoing, outgoing}){
     const [open, setOpen] = useState(false)
     const [addNewBtn, setaddNewBtn] = useState(false)
     const [deleteIcon, setDeleteIcon] = useState(false)
@@ -53,6 +53,10 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
             />
         )
     })
+
+    const allOutgoingTotals = outgoing.map((outgoing_inst)=> outgoing_inst.projected)
+    let currentOutgoingTotal = allOutgoingTotals.reduce((result, num) =>result+num)
+    settingTotalOutgoing(currentOutgoingTotal)
 
     const allIncomeNames = earnings.map((earning) =>earning.income.name) 
     const uniqIncomeNames = allIncomeNames.filter((name, idx)=> allIncomeNames.indexOf(name) === idx)
@@ -260,7 +264,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <hr/>
                     
                     <h5>Projected Income</h5>
-                    <p>$</p>
+                    <p>${totalOutgoing}</p>
                     <hr/>
                     <h5>Projected Outgoing</h5>
                     <p>$</p>
