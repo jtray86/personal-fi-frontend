@@ -4,18 +4,23 @@ import { Header, Grid, Button, Progress, Segment } from 'semantic-ui-react'
 import Chart from "react-google-charts";
 
 
-function Dashboard({debts, currentUser, deposits, outgoing, settingTotalOutgoing, bills, setTotalEmergancy, savings}){
+function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTotalOutgoing, bills, setTotalEmergancy, savings}){
     const history = useHistory();
     const params = useParams();
     const id = params.id;
 
-    console.log(outgoing)
+    // Budget //
+    const earningTotalAry = earnings.map((earning)=> earning.income.projected)
+    let totalPojectedIncome = earningTotalAry.reduce((result, num) =>result+num)
 
 
     const allOutgoingTotals = outgoing.map((outgoing_inst)=> outgoing_inst.projected)
     let currentOutgoingTotal = allOutgoingTotals.reduce((result, num) =>result+num)
     settingTotalOutgoing(currentOutgoingTotal)
-    
+
+    const gapTotal= totalPojectedIncome - currentOutgoingTotal
+
+    //Debit //
     const debt_amounts = debts.map((debt) => debt.inital_amount)
     const inital_debt= debt_amounts.reduce((result, num) =>result+num)
         
@@ -24,17 +29,12 @@ function Dashboard({debts, currentUser, deposits, outgoing, settingTotalOutgoing
 
     const debt_dif = inital_debt - current_debt
     const percentage_payed = (debt_dif/inital_debt)*100
-    
+
+    // Saving //
     const emergancyFundFilter = savings.filter((saving)=> saving.saving_type === "Emergancy Savings")
-    
-    
-    // const allIncomeSavings = earnings.map((earning) =>earning.income.name) 
-    // const uniqIncomeNames = allIncomeNames.filter((name, idx)=> allIncomeNames.indexOf(name) === idx)
-    
     const emergancy_savings_amounts = emergancyFundFilter.map((saving) => saving.amount)
-    console.log(emergancy_savings_amounts)
     const TotalEmSaving= emergancy_savings_amounts.reduce((result, num) =>result+num)
-    console.log(TotalEmSaving)
+    
     setTotalEmergancy(TotalEmSaving)
     
     return(
@@ -99,11 +99,11 @@ function Dashboard({debts, currentUser, deposits, outgoing, settingTotalOutgoing
                             rootProps={{ 'data-testid': '1' }}
                             />
                             <h4 sytle={{'margin-top': '0px'}}>The Gap</h4>
-                            <p>$</p>
+                            <p>${gapTotal}</p>
                             <div style={{display: "inline-flex", "padding-bottom": "6px"}}>
                                 <div style={{"padding-right": "4px"}}>
                                     <p>Projected Income</p>
-                                    <p>$</p>
+                                    <p>${totalPojectedIncome}</p>
                                 </div>
                                 <div style={{"padding-left": "4px", "border-left":"solid .2px lightgray"}}>
                                     <p >Projected Outgoing</p>

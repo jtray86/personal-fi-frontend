@@ -28,7 +28,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
          )
 
     function handleDepositChange(e) {
-        console.log(e.target.value)
+        
         const name = e.target.name;
         let value = e.target.value;
         setDepositForm({
@@ -45,18 +45,18 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
         const updateDeposit= {...depositForm}
         updateDeposit[e.target.name] = savingId
         setDepositForm(updateDeposit)
-        console.log(savingId)
+        
     }
 
     const emergancySavingsFundFilter = savings.filter((saving)=> saving.saving_type === "Emergancy Savings")
       const emergancy_savings_amounts = emergancySavingsFundFilter.map((saving) => saving.amount)
-      console.log(emergancy_savings_amounts)
+     
       const TotalEmSaving= emergancy_savings_amounts.reduce((result, num) =>result+num)
-      console.log(TotalEmSaving)
+      
       setTotalEmergancy(TotalEmSaving)
 
 
-    console.log(depositForm)
+    
     function handleDepositSubmit(e) {
         e.preventDefault()
         fetch(`http://localhost:3000/deposit`, {
@@ -68,7 +68,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                 })
                 .then((r) => r.json())
                 .then((deposit) => {
-                    console.log(deposit)
+                    
                     updateSaving(deposit)
                     handleAddDeposits(deposit)
                 })
@@ -92,7 +92,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                     })
                     
     }
-    console.log(savings)
+    
         const retiermentFilter = savings.filter((saving)=> saving.saving_type === "Retirement")
         const retierment = retiermentFilter.map((saving)=>{
             return(

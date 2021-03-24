@@ -27,7 +27,7 @@ function IncomeRow({earning, updateEarning}){
         
     }
     
-console.log(actualIncome)
+
 
     return(
         <Table.Row>

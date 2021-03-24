@@ -29,7 +29,7 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
         })
     }
 
-    console.log(transactionForm)
+    
 
     function handleTransactionSubmit(e) {
         e.preventDefault()
@@ -43,7 +43,7 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
                 .then((r) => r.json())
                 .then((newTransaction) => {
                     updateDebt(newTransaction.amount)
-                    console.log(newTransaction)
+                    
                     
                 })
                 

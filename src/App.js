@@ -108,14 +108,14 @@ function App() {
     }
   },[currentUser])
 
-  console.log(outgoing)
+
 
   function settingTotalOutgoing(currentOutgoingTotal) {
 
       setTotalOutgoing(currentOutgoingTotal)
   }
 
-  console.log(totalOutgoing)
+  
   
 
     function AddNewEarning(earning){
@@ -173,7 +173,7 @@ return (
         <Home/> 
       </Route>
       <Route path='/dashboard/:id'>
-        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings}  bills={bills} outgoing={outgoing} setTotalEmergancy={setTotalEmergancy} settingTotalOutgoing={settingTotalOutgoing}/>
+        <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings}  bills={bills} outgoing={outgoing} setTotalEmergancy={setTotalEmergancy} settingTotalOutgoing={settingTotalOutgoing} earnings={earnings}/>
       </Route>
       <Route path='/budget/:id'>
         <Budget  handleGapChange={handleGapChange} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated}/>

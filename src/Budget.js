@@ -28,8 +28,15 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
         name: "",
         projected: ""
     })
+    // Gap Math //
+    const allOutgoingTotals = outgoing.map((outgoing_inst)=> outgoing_inst.projected)
+    let currentOutgoingTotal = allOutgoingTotals.reduce((result, num) =>result+num)
+    settingTotalOutgoing(currentOutgoingTotal)
 
+    const earningTotalAry = earnings.map((earning)=> earning.income.projected)
+    let totalPojectedIncome = earningTotalAry.reduce((result, num) =>result+num)
 
+    const gapTotal= totalPojectedIncome - currentOutgoingTotal
     
 
     const earning_ist = earnings.map((earning)=>{
@@ -54,9 +61,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
         )
     })
 
-    const allOutgoingTotals = outgoing.map((outgoing_inst)=> outgoing_inst.projected)
-    let currentOutgoingTotal = allOutgoingTotals.reduce((result, num) =>result+num)
-    settingTotalOutgoing(currentOutgoingTotal)
+    
 
     const allIncomeNames = earnings.map((earning) =>earning.income.name) 
     const uniqIncomeNames = allIncomeNames.filter((name, idx)=> allIncomeNames.indexOf(name) === idx)
@@ -68,7 +73,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
      )}
      )
       
-     console.log(incomeNameOptions) 
+      
 
     function handleProjectedIncome(e){
         const earning_inst = earnings.find((earning) => earning.income.name === e.target.value)
@@ -81,7 +86,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
     }
 
     function handleDateChange(e) {
-        console.log(e.target.value)
+        
         const name = e.target.name;
         let value = e.target.value;
         setAddProjectedForm({
@@ -112,7 +117,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
     }
 
     function handleIncomeSelect(e) {
-        console.log(e.target.value)
+        
         const name = e.target.name;
         let value = e.target.value;
         setNewIncomeForm({
@@ -147,7 +152,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
     }
 
     function addEarning(id) {
-        console.log(id)
+        
         const updateEarnig = {...afterIncomeFetch}
         updateEarnig.income_id = id
         fetch("http://localhost:3000/newEarning", {
@@ -260,14 +265,14 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                         The Gap
                     </Header>
                     
-                    <p>$</p>
+                    <p>${gapTotal}</p>
                     <hr/>
                     
                     <h5>Projected Income</h5>
-                    <p>${totalOutgoing}</p>
+                    <p>${totalPojectedIncome}</p>
                     <hr/>
                     <h5>Projected Outgoing</h5>
-                    <p>$</p>
+                    <p>${totalOutgoing}</p>
                     <hr/>
 
                 </Grid.Column>

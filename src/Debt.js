@@ -21,7 +21,7 @@ function Debt({debts, currentUser, transactions, updateDebts}){
 
     const debt_row_under = under_thousand.map((debt) =>
     {
-        console.log(debts)
+      
         return(
             <DebtRow
             key={debt.id}

@@ -34,10 +34,10 @@ function BudgetRow({bill, updateOutgoing, deleteIcon, handleDeleteUpdated}){
         .then((response) => response.json())
         .then((outgoing) => handleDeleteUpdated(outgoing))
         setOpen(false)
-        
+
     }
     
-console.log(actualOutgoing)
+
 
     return(
         <Table.Row>

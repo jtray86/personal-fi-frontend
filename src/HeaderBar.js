@@ -15,7 +15,7 @@ function HeaderBar({setCurrentUser, currentUser}){
         fetch("http://localhost:3000/me")
           .then((r) => r.json())
           .then((user) => {setCurrentUser(user);
-          console.log(user)
+          
           history.push(`/dashboard/${user.id}`)
           setOpen(false)
         })
