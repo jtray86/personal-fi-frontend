@@ -29,6 +29,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
         name: "",
         projected: ""
     })
+    const history = useHistory();
     // Gap Math //
     const allOutgoingTotals = outgoing.map((outgoing_inst)=> outgoing_inst.projected)
     let currentOutgoingTotal = allOutgoingTotals.reduce((result, num) =>result+num)
@@ -39,15 +40,20 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
 
     const gapTotal= totalPojectedIncome - currentOutgoingTotal
 
-     if (gapTotal < 0){
-        let adviceSec = 
-        <p>Lets Focus on increasing your income and/or decreacing your spending</p>
-       return (adviceSec) 
-    }
-    // else (totalEmergancySavings !== currentOutgoingTotal){
-    //     adviceSec = 
+    //  if (gapTotal < 0){
+    //     let adviceSec = 
+    //     <p>Lets Focus on increasing your income and/or decreacing your spending</p>
+    //    return (adviceSec) 
+    // }
+    // else if (totalEmergancySavings !== currentOutgoingTotal){
+    //     let adviceSec = 
     //     <p>Lets Focus on your Savings Goals. Any extra income should go to your Emergancy Fund</p>
     //    return (adviceSec)
+    // }
+    // else{
+    //     let adviceSec =
+    //     <p>Lets Focus on getting your depits paid off</p>
+    //     return (adviceSec)
     // }
     
 
@@ -381,7 +387,18 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <p>${totalOutgoing}</p>
                     <hr/>
                     <strong>Advice</strong>
-                    
+                    {gapTotal < 0 ?
+                        <p>Lets Focus on increasing your income and/or decreacing your spending</p>
+                    :totalEmergancySavings !== currentOutgoingTotal ?
+                        <><p>Lets Focus on your Savings Goals. Any extra income should go to your Emergancy Fund</p>
+                        <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/savings/${currentUser.id}`)}>
+                            Savings Page
+                        </Button></>
+                    :<><p>Lets Focus on getting your depits paid off</p>
+                    <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/debt/${currentUser.id}`)}>
+                         Debt Page
+                    </Button></>
+                    }
 
                 </Grid.Column>
                 <Grid.Column floated='right' width= {5}>

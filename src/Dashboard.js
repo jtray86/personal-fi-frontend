@@ -74,7 +74,21 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                             </Button>
                         </Grid.Column>
                         <Grid.Column floated='right' width={6} style={{"text-align": "center"}}>
-                            Advice
+                            <strong>Advice</strong>
+                            <hr/>
+                            <br/>
+                            {gapTotal < 0 ?
+                                <p>Lets Focus on increasing your income and/or decreacing your spending</p>
+                            :TotalEmSaving !== currentOutgoingTotal ?
+                                <><p>Lets Focus on your Savings Goals. Any extra income should go to your Emergancy Fund</p>
+                                <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/savings/${currentUser.id}`)}>
+                                    Savings Page
+                                </Button></>
+                            :<><p>Lets Focus on getting your depits paid off</p>
+                            <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/debt/${currentUser.id}`)}>
+                                Debt Page
+                            </Button></>
+                            }
                         </Grid.Column>
                     </Grid.Row>
                     </Grid>
