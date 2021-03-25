@@ -23,7 +23,6 @@ function App() {
   const [transactions, setTransactions]= useState([])
   const [totalOutgoing, setTotalOutgoing] =useState(null)
   const [totalEmergancySavings, setTotalEmergancySavings] =useState(null)
-  const [theGap, setTheGap]= useState({gap:'',income:'',outgoing:''})
   const [outgoing, setOutgoing]=useState([])
 
   // auto-login
@@ -161,9 +160,7 @@ function App() {
       setOutgoing([...newOutgoingAry])
     }
   
-    function handleGapChange(){
-
-    }
+    
 
 return (
     <div>
@@ -176,7 +173,7 @@ return (
         <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings}  bills={bills} outgoing={outgoing} setTotalEmergancy={setTotalEmergancy} settingTotalOutgoing={settingTotalOutgoing} earnings={earnings}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget  handleGapChange={handleGapChange} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated}/>
+        <Budget  earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated} totalEmergancySavings={totalEmergancySavings}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>

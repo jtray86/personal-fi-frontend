@@ -8,7 +8,7 @@ import { useState } from "react"
 import PieChart from'./PieChart'
 
 
-function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, handleGapChange, theGap, totalOutgoing, settingTotalOutgoing, outgoing}){
+function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, totalEmergancySavings, totalOutgoing, settingTotalOutgoing, outgoing}){
     const [open, setOpen] = useState(false)
     const [addNewBtn, setaddNewBtn] = useState(false)
     const [deleteIcon, setDeleteIcon] = useState(false)
@@ -38,6 +38,17 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
     let totalPojectedIncome = earningTotalAry.reduce((result, num) =>result+num)
 
     const gapTotal= totalPojectedIncome - currentOutgoingTotal
+
+     if (gapTotal < 0){
+        let adviceSec = 
+        <p>Lets Focus on increasing your income and/or decreacing your spending</p>
+       return (adviceSec) 
+    }
+    // else (totalEmergancySavings !== currentOutgoingTotal){
+    //     adviceSec = 
+    //     <p>Lets Focus on your Savings Goals. Any extra income should go to your Emergancy Fund</p>
+    //    return (adviceSec)
+    // }
     
 
     const earning_ist = earnings.map((earning)=>{
@@ -49,6 +60,100 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
             />
         )
     })
+
+    // Type Filters //
+    const filterHousing = bills.filter((bill)=> bill.outgoing.outgoing_type === "Housing")
+    const housingSec = filterHousing?.map((bill)=>{
+        return(
+            <BudgetRow
+                key={bill.id}
+                bill={bill}
+                updateOutgoing={updateOutgoing}
+                deleteIcon={deleteIcon}
+                handleDeleteUpdated={handleDeleteUpdated}
+            />
+        )
+    })
+
+    const filterUtilities = bills.filter((bill)=> bill.outgoing.outgoing_type === "Utilities")
+    const utilitiesSec = filterUtilities?.map((bill)=>{
+        return(
+            <BudgetRow
+                key={bill.id}
+                bill={bill}
+                updateOutgoing={updateOutgoing}
+                deleteIcon={deleteIcon}
+                handleDeleteUpdated={handleDeleteUpdated}
+            />
+        )
+    })
+
+    const filterTransportation = bills.filter((bill)=> bill.outgoing.outgoing_type === "Transportation")
+    const transportationSec = filterTransportation?.map((bill)=>{
+        return(
+            <BudgetRow
+                key={bill.id}
+                bill={bill}
+                updateOutgoing={updateOutgoing}
+                deleteIcon={deleteIcon}
+                handleDeleteUpdated={handleDeleteUpdated}
+            />
+        )
+    })
+
+    const filterInsurance = bills.filter((bill)=> bill.outgoing.outgoing_type === "Insurance")
+    const insuranceSec = filterInsurance?.map((bill)=>{
+        return(
+            <BudgetRow
+                key={bill.id}
+                bill={bill}
+                updateOutgoing={updateOutgoing}
+                deleteIcon={deleteIcon}
+                handleDeleteUpdated={handleDeleteUpdated}
+            />
+        )
+    })
+
+    const filterDebt = bills.filter((bill)=> bill.outgoing.outgoing_type === "Debt")
+    const debtSec = filterDebt?.map((bill)=>{
+        return(
+            <BudgetRow
+                key={bill.id}
+                bill={bill}
+                updateOutgoing={updateOutgoing}
+                deleteIcon={deleteIcon}
+                handleDeleteUpdated={handleDeleteUpdated}
+            />
+        )
+    })
+
+    const filterLiving = bills.filter((bill)=> bill.outgoing.outgoing_type === "Living")
+    const livingsec = filterLiving?.map((bill)=>{
+        return(
+            <BudgetRow
+                key={bill.id}
+                bill={bill}
+                updateOutgoing={updateOutgoing}
+                deleteIcon={deleteIcon}
+                handleDeleteUpdated={handleDeleteUpdated}
+            />
+        )
+    })
+
+    const filterMiscellaneous = bills.filter((bill)=> bill.outgoing.outgoing_type === "Miscellaneous")
+    const miscellaneousSec = filterMiscellaneous?.map((bill)=>{
+        return(
+            <BudgetRow
+                key={bill.id}
+                bill={bill}
+                updateOutgoing={updateOutgoing}
+                deleteIcon={deleteIcon}
+                handleDeleteUpdated={handleDeleteUpdated}
+            />
+        )
+    })
+
+
 
     const bill_inst = bills.map((bill)=>{
         return(
@@ -170,34 +275,6 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
         setOpen(false)
     }
 
-    // Pie Chart & Type Filters //
-    // const filterHousing = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Housing")
-    // const housingCostAry = filterHousing?.map((house)=> house.projected)
-    // const housingCost = housingCostAry?.reduce((result, num) =>result+num, 0)
-
-    // const filterUtilities = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Utilities")
-    // const utilitiesCostAry = filterUtilities?.map((utility)=> utility.projected)
-    // const utilitiesCost = utilitiesCostAry?.reduce((result, num) =>result+num, 0)
-
-    // const filterTransportation = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Transportation")
-    // const transportationCostAry = filterTransportation?.map((trans)=> trans.projected)
-    // const transportationCost = transportationCostAry?.reduce((result, num) =>result+num, 0)
-
-    // const filterInsurance = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Insurance")
-    // const insuranceCostAry = filterInsurance?.map((insurance_inst)=> insurance_inst.projected)
-    // const insuranceCost = insuranceCostAry?.reduce((result, num) =>result+num, 0)
-
-    // const filterDebt = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Debt")
-    // const debtCostAry = filterDebt?.map((debt_inst)=> debt_inst.projected)
-    // const debtCost = debtCostAry?.reduce((result, num) =>result+num, 0)
-
-    // const filterLiving = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Living")
-    // const livingCostAry = filterLiving?.map((living_inst)=> living_inst.projected)
-    // const livingCost = livingCostAry?.reduce((result, num) =>result+num, 0)
-
-    // const filterMiscellaneous = outgoing.filter((outgoing)=> outgoing.outgoing_type === "Miscellaneous")
-    // const miscellaneousCostAry = filterMiscellaneous?.map((stuff)=> stuff.projected)
-    // const miscellaneousCost = miscellaneousCostAry?.reduce((result, num) =>result+num, 0)
 
     return(
         <Container>
@@ -297,12 +374,14 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <p>${gapTotal}</p>
                     <hr/>
                     
-                    <h5>Projected Income</h5>
+                    <h4>Projected Income</h4>
                     <p>${totalPojectedIncome}</p>
                     <hr/>
-                    <h5>Projected Outgoing</h5>
+                    <h4>Projected Outgoing</h4>
                     <p>${totalOutgoing}</p>
                     <hr/>
+                    <strong>Advice</strong>
+                    
 
                 </Grid.Column>
                 <Grid.Column floated='right' width= {5}>
@@ -329,36 +408,61 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
 
                 <Table.Body>
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
-                    <Table.Cell>All Bills</Table.Cell>
+                    <Table.Cell>Housing</Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
+                    {deleteIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
-                {bill_inst}
-                {/* <Table.Row style={{"background-color": "#f5f5f5"}}>
-                    <Table.Cell>Credit Card</Table.Cell>
-                    <Table.Cell></Table.Cell>
-                    <Table.Cell></Table.Cell>
-                </Table.Row>
-                
+                {housingSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
-                    <Table.Cell>Student Loans</Table.Cell>
+                    <Table.Cell>Utilities</Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    {deleteIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
-                
+                {utilitiesSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
-                    <Table.Cell>John</Table.Cell>
-                    <Table.Cell>Approved</Table.Cell>
-                    <Table.Cell>None</Table.Cell>
+                    <Table.Cell>Transportaion</Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    {deleteIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
-                
+                {transportationSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
-                    <Table.Cell>John</Table.Cell>
-                    <Table.Cell>Approved</Table.Cell>
-                    <Table.Cell>None</Table.Cell>
-                </Table.Row> */}
-                
+                    <Table.Cell>Insurance</Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                </Table.Row>
+                {insuranceSec}
+                <Table.Row style={{"background-color": "#f5f5f5"}}>
+                    <Table.Cell>Debt</Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                </Table.Row>
+                {debtSec}
+                <Table.Row style={{"background-color": "#f5f5f5"}}>
+                    <Table.Cell>Living Expenses</Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                </Table.Row>
+                {livingsec}
+                <Table.Row style={{"background-color": "#f5f5f5"}}>
+                    <Table.Cell>Miscellaneous</Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
+                    {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                </Table.Row>
+                {miscellaneousSec}
                 </Table.Body>
             </Table>
             <Button inverted color='green' floated='right' centered size='mini'onClick={()=>setDeleteIcon(!deleteIcon)}>
