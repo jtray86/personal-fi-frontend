@@ -105,6 +105,7 @@ function HeaderBar({setCurrentUser, currentUser}){
           </Menu.Menu>
         </Menu>
         :null}
+        
         </>
     )
     }

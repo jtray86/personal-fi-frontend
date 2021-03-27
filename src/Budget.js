@@ -13,6 +13,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
     const [addNewBtn, setaddNewBtn] = useState(false)
     const [deleteIcon, setDeleteIcon] = useState(false)
     const [editIcon, setEditIcon] = useState(false)
+    
     const [addProjectedForm, setAddProjectedForm] = useState({
         user_id: currentUser.id,
         income_id: "",
@@ -487,7 +488,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 {miscellaneousSec}
                 </Table.Body>
             </Table>
-            
+            <div style={{width: '100%', height: '2.5rem'}}>
             <Button inverted color='green' floated='right' centered size='mini'>
                 Add a new bill
             </Button>
@@ -497,7 +498,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
             <Button inverted color='green' floated='right' centered size='mini'onClick={()=>setDeleteIcon(!deleteIcon)}>
                         Delete a Budget Item
             </Button>        
-            
+           </div>
         </Container>
         
     )

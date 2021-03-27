@@ -11,6 +11,7 @@ import SavingForm from "./SavingForm";
 import DebtForm from "./DebtForm";
 import BudgetForm from "./BudgetForm";
 import { useState, useEffect } from "react";
+import Footer from "./Footer";
 
 function App() {
 
@@ -197,7 +198,7 @@ return (
       </Route>
 
     </Switch>
-     
+     <Footer/>
     </div>
   );
 }
