@@ -1,5 +1,5 @@
 import { Container, Table, Header, Grid, Modal,
-Button, Form } from 'semantic-ui-react'
+Button, Form, Segment } from 'semantic-ui-react'
 import BudgetRow from "./BudgetRow";
 import Chart from "react-google-charts";
 import { useParams, useHistory} from "react-router-dom";
@@ -8,10 +8,11 @@ import { useState } from "react"
 import PieChart from'./PieChart'
 
 
-function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, totalEmergancySavings, totalOutgoing, settingTotalOutgoing, outgoing}){
+function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, totalEmergancySavings, totalOutgoing, settingTotalOutgoing, outgoing, updateEditedOutgoing}){
     const [open, setOpen] = useState(false)
     const [addNewBtn, setaddNewBtn] = useState(false)
     const [deleteIcon, setDeleteIcon] = useState(false)
+    const [editIcon, setEditIcon] = useState(false)
     const [addProjectedForm, setAddProjectedForm] = useState({
         user_id: currentUser.id,
         income_id: "",
@@ -40,22 +41,6 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
 
     const gapTotal= totalPojectedIncome - currentOutgoingTotal
 
-    //  if (gapTotal < 0){
-    //     let adviceSec = 
-    //     <p>Lets Focus on increasing your income and/or decreacing your spending</p>
-    //    return (adviceSec) 
-    // }
-    // else if (totalEmergancySavings !== currentOutgoingTotal){
-    //     let adviceSec = 
-    //     <p>Lets Focus on your Savings Goals. Any extra income should go to your Emergancy Fund</p>
-    //    return (adviceSec)
-    // }
-    // else{
-    //     let adviceSec =
-    //     <p>Lets Focus on getting your depits paid off</p>
-    //     return (adviceSec)
-    // }
-    
 
     const earning_ist = earnings.map((earning)=>{
         return(
@@ -77,6 +62,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 updateOutgoing={updateOutgoing}
                 deleteIcon={deleteIcon}
                 handleDeleteUpdated={handleDeleteUpdated}
+                editIcon={editIcon}
+                updateEditedOutgoing={updateEditedOutgoing}
             />
         )
     })
@@ -90,7 +77,10 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 updateOutgoing={updateOutgoing}
                 deleteIcon={deleteIcon}
                 handleDeleteUpdated={handleDeleteUpdated}
+                editIcon={editIcon}
+                updateEditedOutgoing={updateEditedOutgoing}
             />
+            
         )
     })
 
@@ -103,6 +93,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 updateOutgoing={updateOutgoing}
                 deleteIcon={deleteIcon}
                 handleDeleteUpdated={handleDeleteUpdated}
+                editIcon={editIcon}
+                updateEditedOutgoing={updateEditedOutgoing}
             />
         )
     })
@@ -116,6 +108,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 updateOutgoing={updateOutgoing}
                 deleteIcon={deleteIcon}
                 handleDeleteUpdated={handleDeleteUpdated}
+                editIcon={editIcon}
+                updateEditedOutgoing={updateEditedOutgoing}
             />
         )
     })
@@ -129,6 +123,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 updateOutgoing={updateOutgoing}
                 deleteIcon={deleteIcon}
                 handleDeleteUpdated={handleDeleteUpdated}
+                editIcon={editIcon}
+                updateEditedOutgoing={updateEditedOutgoing}
             />
         )
     })
@@ -142,6 +138,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 updateOutgoing={updateOutgoing}
                 deleteIcon={deleteIcon}
                 handleDeleteUpdated={handleDeleteUpdated}
+                editIcon={editIcon}
+                updateEditedOutgoing={updateEditedOutgoing}
             />
         )
     })
@@ -155,6 +153,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 updateOutgoing={updateOutgoing}
                 deleteIcon={deleteIcon}
                 handleDeleteUpdated={handleDeleteUpdated}
+                editIcon={editIcon}
+                updateEditedOutgoing={updateEditedOutgoing}
             />
         )
     })
@@ -169,6 +169,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 updateOutgoing={updateOutgoing}
                 deleteIcon={deleteIcon}
                 handleDeleteUpdated={handleDeleteUpdated}
+                editIcon={editIcon}
+                updateEditedOutgoing={updateEditedOutgoing}
             />
         )
     })
@@ -219,7 +221,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 .then((r) => r.json())
                 .then((data) => {
                     AddNewEarning(data)})
-                // history.push(`/trip/${trip.id}`)
+                
         setOpen(false)
     }
 
@@ -259,7 +261,6 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 .then((r) => r.json())
                 .then((data) => {
                     addEarning(data.id)})
-                // history.push(`/trip/${trip.id}`)
         setOpen(false)
     }
 
@@ -277,7 +278,6 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 .then((r) => r.json())
                 .then((data) => {
                     AddNewEarning(data)})
-                // history.push(`/trip/${trip.id}`)
         setOpen(false)
     }
 
@@ -377,7 +377,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                         The Gap
                     </Header>
                     
-                    <p>${gapTotal}</p>
+                    <p>${gapTotal.toFixed(2)}</p>
                     <hr/>
                     
                     <h4>Projected Income</h4>
@@ -406,16 +406,14 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                         Pie Chart
                     </Header>
                         <PieChart outgoing={outgoing}/>
-                    
-                    <Button inverted color='green' floated='right' centered size='mini'>
-                        Debt Page
-                    </Button>
+
                 </Grid.Column>
             </Grid>
             <Table celled>
                 <Table.Header>
                 <Table.Row>
                     {deleteIcon ? <Table.HeaderCell>Delete</Table.HeaderCell> : null}
+                    {editIcon ? <Table.HeaderCell>Edit</Table.HeaderCell> : null}
                     <Table.HeaderCell>Name</Table.HeaderCell>
                     <Table.HeaderCell>Projected</Table.HeaderCell>
                     <Table.HeaderCell>Actual</Table.HeaderCell>
@@ -430,6 +428,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                    {editIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
                 {housingSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
@@ -438,6 +437,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                    {editIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
                 {utilitiesSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
@@ -446,6 +446,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                    {editIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
                 {transportationSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
@@ -454,6 +455,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                    {editIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
                 {insuranceSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
@@ -462,6 +464,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                    {editIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
                 {debtSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
@@ -470,6 +473,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                    {editIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
                 {livingsec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
@@ -478,13 +482,22 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     {deleteIcon ? <Table.Cell></Table.Cell> : null }
+                    {editIcon ? <Table.Cell></Table.Cell> : null }
                 </Table.Row>
                 {miscellaneousSec}
                 </Table.Body>
             </Table>
+            
+            <Button inverted color='green' floated='right' centered size='mini'>
+                Add a new bill
+            </Button>
+            <Button inverted color='green' floated='right' centered size='mini'onClick={()=>setEditIcon(!editIcon)}>
+                Edit a bill
+            </Button>
             <Button inverted color='green' floated='right' centered size='mini'onClick={()=>setDeleteIcon(!deleteIcon)}>
                         Delete a Budget Item
-                    </Button>
+            </Button>        
+            
         </Container>
         
     )

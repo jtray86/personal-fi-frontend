@@ -97,7 +97,7 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                     <h4 style={{'margin-bottom':'0px'}} >Budget</h4>
                     <PieChart outgoing={outgoing}/>
                             <h4 sytle={{'margin-top': '0px'}}>The Gap</h4>
-                            <p>${gapTotal}</p>
+                            <p>${gapTotal.toFixed(2)}</p>
                             <div style={{display: "inline-flex", "padding-bottom": "6px"}}>
                                 <div style={{"padding-right": "4px"}}>
                                     <p>Projected Income</p>

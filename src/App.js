@@ -160,7 +160,12 @@ function App() {
       setOutgoing([...newOutgoingAry])
     }
   
-    
+    function updateEditedOutgoing(updatedOutgoing){
+      const newOutgoingAry = outgoing.filter((outgoing) =>outgoing.id !== updatedOutgoing.id)
+      setOutgoing([...newOutgoingAry, updatedOutgoing])
+    }
+
+  
 
 return (
     <div>
@@ -173,7 +178,7 @@ return (
         <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings}  bills={bills} outgoing={outgoing} setTotalEmergancy={setTotalEmergancy} settingTotalOutgoing={settingTotalOutgoing} earnings={earnings}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget  earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated} totalEmergancySavings={totalEmergancySavings}/>
+        <Budget  updateEditedOutgoing={updateEditedOutgoing} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated} totalEmergancySavings={totalEmergancySavings}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>
