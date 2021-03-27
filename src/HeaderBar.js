@@ -1,10 +1,12 @@
 import { Header } from 'semantic-ui-react'
-import { Button, Modal, Form, Checkbox } from 'semantic-ui-react'
+import { Button, Modal, Form, Checkbox, Menu, Segment } from 'semantic-ui-react'
 import { useState, React } from "react";
 import { useHistory } from "react-router-dom";
+import Dashboard from './Dashboard';
 
 function HeaderBar({setCurrentUser, currentUser}){
     const [open, setOpen] = useState(false)
+    const [activeNavItem, setActiveNavItem] = useState("")
     const [loginForm, setLoginForm] = useState({username:"", password:""})
     const history = useHistory();
     // function handleChange(e) {
@@ -26,6 +28,7 @@ function HeaderBar({setCurrentUser, currentUser}){
         setCurrentUser(null);
       }
     return(
+        <> 
         <Header as='h1' block textAlign='center' style={{'background-color':'#9effb8'}}>
             Personal FI
             {currentUser ? <Button floated='right'  inverted color='green' size='mini' onClick={handleLogout}>Logout</Button> :
@@ -71,6 +74,38 @@ function HeaderBar({setCurrentUser, currentUser}){
                 </Modal>
            
         </Header>
+        {currentUser ? 
+        <Menu pointing secondary>
+            <Menu.Item
+            name='home'
+            active={activeNavItem === 'home'}
+            onClick={()=> {setActiveNavItem("home"); history.push(`/`)}}
+          />
+          <Menu.Item
+            name='dashboard'
+            active={activeNavItem === 'dashboard'}
+            onClick={()=> {setActiveNavItem('dashboard'); history.push(`/dashboard/${currentUser.id}`)}}
+          />
+          <Menu.Item
+            name='budget'
+            active={activeNavItem === 'budget'}
+            onClick={()=> {setActiveNavItem('budget'); history.push(`/budget/${currentUser.id}`)}}
+          />
+          <Menu.Item
+            name='savings'
+            active={activeNavItem === 'savings'}
+            onClick={()=> {setActiveNavItem('savings'); history.push(`/savings/${currentUser.id}`)}}
+          />
+          <Menu.Menu >
+            <Menu.Item
+              name='debt'
+              active={activeNavItem === 'debt'}
+              onClick={()=> {setActiveNavItem('debt'); history.push(`/debt/${currentUser.id}`)}}
+            />
+          </Menu.Menu>
+        </Menu>
+        :null}
+        </>
     )
     }
 export default HeaderBar
