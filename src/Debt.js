@@ -105,6 +105,7 @@ function Debt({debts, currentUser, transactions, updateDebts}){
                         <Table.HeaderCell>Current Amount</Table.HeaderCell>
                         <Table.HeaderCell>Interest</Table.HeaderCell>
                         <Table.HeaderCell>In Collections</Table.HeaderCell>
+                        {payIcon ? <Table.HeaderCell>Report a Payment</Table.HeaderCell> : null}
                     </Table.Row>
                     </Table.Header>
 

@@ -13,6 +13,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
     const [addNewBtn, setaddNewBtn] = useState(false)
     const [deleteIcon, setDeleteIcon] = useState(false)
     const [editIcon, setEditIcon] = useState(false)
+    const [addOutgoingMod, setAddOutgoingMod] = useState(false)
     
     const [addProjectedForm, setAddProjectedForm] = useState({
         user_id: currentUser.id,
@@ -489,9 +490,16 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 </Table.Body>
             </Table>
             <div style={{width: '100%', height: '2.5rem'}}>
-            <Button inverted color='green' floated='right' centered size='mini'>
+            <Button inverted color='green' floated='right' centered size='mini' onClick={()=>setAddOutgoingMod(true)}>
                 Add a new bill
             </Button>
+                    <Modal
+                    onClose={() => setAddOutgoingMod(false)}
+                    onOpen={() => setAddOutgoingMod(true)}
+                    open={addOutgoingMod}>
+
+
+                    </Modal>
             <Button inverted color='green' floated='right' centered size='mini'onClick={()=>setEditIcon(!editIcon)}>
                 Edit a bill
             </Button>
