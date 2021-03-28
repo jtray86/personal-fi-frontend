@@ -8,12 +8,24 @@ import { useState } from "react"
 import PieChart from'./PieChart'
 
 
-function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, totalEmergancySavings, totalOutgoing, settingTotalOutgoing, outgoing, updateEditedOutgoing}){
+function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, updateOutgoing, handleDeleteUpdated, totalEmergancySavings, totalOutgoing, settingTotalOutgoing, outgoing, updateEditedOutgoing, addNewOutgoingToState, addNewBillToState}){
     const [open, setOpen] = useState(false)
     const [addNewBtn, setaddNewBtn] = useState(false)
     const [deleteIcon, setDeleteIcon] = useState(false)
     const [editIcon, setEditIcon] = useState(false)
     const [addOutgoingMod, setAddOutgoingMod] = useState(false)
+    const [addNewOutgoing, setAddNewOutgoing] = useState({
+        outgoing_type: "",
+        name: "", 
+        projected: "",
+        due_date: ''
+    })
+    // const[addNewBill, setNewBill] =useState({
+    //     user_id: currentUser.id,
+    //     outgoing_id: "",
+    //     paid_date: "",
+    //     actual: ""
+    // })
     
     const [addProjectedForm, setAddProjectedForm] = useState({
         user_id: currentUser.id,
@@ -282,6 +294,50 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     AddNewEarning(data)})
         setOpen(false)
     }
+    function handleNewOutgoing(e) {
+        
+        const name = e.target.name;
+        let value = e.target.value;
+        setAddNewOutgoing({
+            ...addNewOutgoing,
+            [name]: value,
+        })
+    }
+
+    function handleAddOutgoingSubmit(e){
+        e.preventDefault()
+        fetch("http://localhost:3000/newOutgoing", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(addNewOutgoing),
+                })
+                .then((r) => r.json())
+                .then((newOutgoingInst) => {
+                    addNewBill(newOutgoingInst);
+                    addNewOutgoingToState(newOutgoingInst)})
+                    setAddOutgoingMod(false)
+    }
+
+    function addNewBill(newOutgoingInst) {
+        const newBill= {
+                user_id: currentUser.id,
+                outgoing_id: newOutgoingInst.id,
+                paid_date: newOutgoingInst.due_date
+            }
+        fetch("http://localhost:3000/newBill", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newBill),
+                })
+                .then((r) => r.json())
+                .then((data) => {
+                    addNewBillToState(data)})
+                    
+    }
 
 
     return(
@@ -391,7 +447,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <strong>Advice</strong>
                     {gapTotal < 0 ?
                         <p>Lets Focus on increasing your income and/or decreacing your spending</p>
-                    :totalEmergancySavings !== currentOutgoingTotal ?
+                    :totalEmergancySavings < currentOutgoingTotal ?
                         <><p>Lets Focus on your Savings Goals. Any extra income should go to your Emergancy Fund</p>
                         <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/savings/${currentUser.id}`)}>
                             Savings Page
@@ -443,7 +499,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 </Table.Row>
                 {utilitiesSec}
                 <Table.Row style={{"background-color": "#f5f5f5"}}>
-                    <Table.Cell>Transportaion</Table.Cell>
+                    <Table.Cell>Transportation</Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
                     <Table.Cell></Table.Cell>
@@ -493,12 +549,42 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
             <Button inverted color='green' floated='right' centered size='mini' onClick={()=>setAddOutgoingMod(true)}>
                 Add a new bill
             </Button>
+                   
+                   
                     <Modal
-                    onClose={() => setAddOutgoingMod(false)}
-                    onOpen={() => setAddOutgoingMod(true)}
-                    open={addOutgoingMod}>
-
-
+                        onClose={() => setAddOutgoingMod(false)}
+                        onOpen={() => setAddOutgoingMod(true)}
+                        open={addOutgoingMod}
+                        >
+                        <Modal.Header>Add a new Bill</Modal.Header>
+                        <Modal.Content >
+                            <Modal.Description>
+                                <Form onSubmit={(e) => {handleAddOutgoingSubmit(e)}}>
+                                    <Form.Field label='Select Income Type' control='select' name='outgoing_type' onChange={(e)=>handleNewOutgoing(e)} >
+                                        <option ></option>
+                                        <option name="outgoing_type" value='Housing'>Housing</option> 
+                                        <option name="outgoing_type" value='Utilities'>Utilities</option>
+                                        <option name="outgoing_type" value='Transportation'>Transportation</option>
+                                        <option name="outgoing_type" value='Insurance'>Insurance</option>
+                                        <option name="outgoing_type" value='Debt'>Debt</option>
+                                        <option name="outgoing_type" value='Living Expenses'>Living Expenses</option>
+                                        <option name="outgoing_type" value='Miscellaneous'>Miscellaneous</option>
+                                    </Form.Field>
+                                    
+                                    <Form.Input fluid label='Name' name='name' value={addNewOutgoing.name} onChange={(e)=>handleNewOutgoing(e)} />
+                                    <Form.Input fluid label='Projected' name='projected' value={addNewOutgoing.projected} onChange={(e)=>handleNewOutgoing(e)} />
+                                    <Form.Input fluid label='Due Day YYYY/MM/DD' name='due_date' value={addNewOutgoing.due_date} onChange={(e)=>handleNewOutgoing(e)} />
+                                </Form>
+                            </Modal.Description>
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button color='black' onClick={() => setAddOutgoingMod(false)}>
+                            Nope
+                            </Button>
+                            <Button inverted color='green' floated='right' centered size='mini'onClick={(e)=>handleAddOutgoingSubmit(e)}>
+                                submit
+                            </Button>
+                        </Modal.Actions>
                     </Modal>
             <Button inverted color='green' floated='right' centered size='mini'onClick={()=>setEditIcon(!editIcon)}>
                 Edit a bill

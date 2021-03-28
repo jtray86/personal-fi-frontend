@@ -53,9 +53,9 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                                 <Progress percent={percentage_payed.toFixed()} size='small' color='green' progress />
                             </Segment>
                             <h4>Total Inital Debt</h4>
-                                <p>${inital_debt}</p>
+                                <p>${inital_debt.toFixed(2)}</p>
                             <h4>Total Current Debt</h4>
-                                <p>${current_debt}</p>
+                                <p>${current_debt.toFixed(2)}</p>
                             <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/debt/${currentUser.id}`)}>
                                     Debt Page
                                 </Button>
@@ -66,9 +66,9 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                     
                         <Grid.Column style={{"border-right": "solid .5px lightgray"}} width={10}>
                             <h4>Total Emergancy Fund Savings</h4>
-                            <p>${TotalEmSaving}</p>
+                            <p>${TotalEmSaving.toFixed(2)}</p>
                             <h4>Emergancy Fund Goal</h4>
-                            <p>$ {currentOutgoingTotal}</p>
+                            <p>$ {currentOutgoingTotal.toFixed(2)}</p>
                             <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/savings/${currentUser.id}`)}>
                                 Savings Page
                             </Button>
@@ -101,11 +101,11 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                             <div style={{display: "inline-flex", "padding-bottom": "6px"}}>
                                 <div style={{"padding-right": "4px"}}>
                                     <p>Projected Income</p>
-                                    <p>${totalPojectedIncome}</p>
+                                    <p>${totalPojectedIncome.toFixed(2)}</p>
                                 </div>
                                 <div style={{"padding-left": "4px", "border-left":"solid .2px lightgray"}}>
                                     <p >Projected Outgoing</p>
-                                    <p>${currentOutgoingTotal}</p>
+                                    <p>${currentOutgoingTotal.toFixed(2)}</p>
                                 </div>
                             </div>
                             <Button inverted color='green' onClick={()=> history.push(`/budget/${currentUser.id}`)}>

@@ -6,6 +6,7 @@ import { useState } from 'react'
 
 function Debt({debts, currentUser, transactions, updateDebts}){
     const [payIcon, setPayIcon] = useState(false)
+    const [addDebtMod, setAddDebtMod] = useState(false)
     const history = useHistory();
 
     const debt_amounts = debts.map((debt) => debt.inital_amount)
@@ -89,6 +90,7 @@ function Debt({debts, currentUser, transactions, updateDebts}){
                         <Table.HeaderCell>Current Amount</Table.HeaderCell>
                         <Table.HeaderCell>Interest</Table.HeaderCell>
                         <Table.HeaderCell>In Collections</Table.HeaderCell>
+                        {payIcon ? <Table.HeaderCell>Report a Payment</Table.HeaderCell> : null}
                     </Table.Row>
                     </Table.Header>
 
@@ -124,6 +126,37 @@ function Debt({debts, currentUser, transactions, updateDebts}){
                                 Paid off
                             </Progress>
                         </Segment>
+                        <Button inverted color='green' floated='right' size='mini' onClick={()=>setPayIcon(!payIcon)} >
+                            Report A Payment
+                        </Button>
+                        <Button inverted color='green' floated='right' size='mini' onClick={()=>setPayIcon(!payIcon)} >
+                            Add a Debt
+                        </Button>
+                        {/* <Modal
+                        onClose={() => setOpen(false)}
+                        onOpen={() => setOpen(true)}
+                        open={open}
+                        >
+                        <Modal.Header>Select a Photo</Modal.Header>
+                        <Modal.Content >
+                            
+                            <Modal.Description>
+                            <Header>Default Profile Image</Header>
+                           
+                            <Form onSubmit={(e)=>handleTransactionSubmit(e)}>    
+                                <Form.Input fluid label='Amount' name='amount' value={transactionForm.amount} onChange={(e)=>handleTransaction(e)} />
+                                <Form.Input fluid label='Pay Day YYYY/MM/DD' name='transaction_date' value={transactionForm.transaction_date} onChange={(e)=>handleTransaction(e)} />
+                                
+                            </Form>
+                            </Modal.Description>
+                        </Modal.Content>
+                        <Modal.Actions>
+                            <Button color='black' onClick={() => setOpen(false)}>
+                            Cancel
+                            </Button>
+                            <Button color='green' onClick={(e)=>handleTransactionSubmit(e)}>Submit</Button>
+                        </Modal.Actions>
+                        </Modal> */}
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
@@ -143,20 +176,12 @@ function Debt({debts, currentUser, transactions, updateDebts}){
                         </Table>
                     </Grid.Column>
                     <Grid.Column width={9}>
-                        <div style={{height:"90%"}}></div>
-                        <Button inverted color='green' floated='right' size='mini' onClick={()=>setPayIcon(!payIcon)} >
-                            Report A Payment
-                        </Button>
-                        {/* <Button inverted color='green' floated='right' size='mini' >
-                            Debt Page
-                        </Button>
-                        <Button inverted color='green' floated='right' size='mini' >
-                            Debt Page
-                        </Button> */}
+                        
                     
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
+            <div style={{height: '2rem'}}></div>
         </Container>
         
     )

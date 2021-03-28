@@ -166,6 +166,13 @@ function App() {
       setOutgoing([...newOutgoingAry, updatedOutgoing])
     }
 
+    function addNewOutgoingToState(newOutgoing) {
+      setOutgoing([...outgoing, newOutgoing])
+    }
+
+    function addNewBillToState(newBill) {
+      setBills([...bills, newBill])
+    }
   
 
 return (
@@ -179,7 +186,7 @@ return (
         <Dashboard debts={debts} currentUser={currentUser} deposits={deposits} savings={savings}  bills={bills} outgoing={outgoing} setTotalEmergancy={setTotalEmergancy} settingTotalOutgoing={settingTotalOutgoing} earnings={earnings}/>
       </Route>
       <Route path='/budget/:id'>
-        <Budget  updateEditedOutgoing={updateEditedOutgoing} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated} totalEmergancySavings={totalEmergancySavings}/>
+        <Budget addNewBillToState={addNewBillToState} addNewOutgoingToState={addNewOutgoingToState}  updateEditedOutgoing={updateEditedOutgoing} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated} totalEmergancySavings={totalEmergancySavings}/>
       </Route>
       <Route path='/savings/:id'>
         <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>
