@@ -88,7 +88,7 @@ function Debt({debts, currentUser, transactions, updateDebts, addNewTransactionT
     })
     }
 
-    console.log(addNewDebtForm)
+    
     function handleNewDebtClose() {
         setAddDebtMod(false)
         setAddNewDebtForm({

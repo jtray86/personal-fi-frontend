@@ -3,8 +3,14 @@ import {useState} from 'react'
 import SavingForm from './SavingForm'
 import SavingRow from './SavingsRow'
 
-function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, handleAddDeposits, updateSavingsTotal, setTotalEmergancy, savings }){
+function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, handleAddDeposits, updateSavingsTotal, setTotalEmergancy, savings, addNewSavingsToState }){
     const [open, setOpen] = useState(false)
+    const [newOpen, setNewOpen] = useState(false)
+    const [newSaving, setNewSaving] = useState({
+        saving_type: "",
+        name: "",
+        amount: ""
+    })
     const [depositForm, setDepositForm] = useState({
         user_id: currentUser.id,
         saving_id: '',
@@ -112,6 +118,65 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                 />
             )
         })
+
+        function handleNewAccountChange(e) {
+            const name = e.target.name;
+            let value = e.target.value;
+            setNewSaving({
+                ...newSaving,
+                [name]: value,
+        })
+        }
+
+        console.log(newSaving)
+
+        function handleNewAccountSubmit(e) {
+            e.preventDefault()
+            fetch(`http://localhost:3000/saving`, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newSaving),
+                })
+                .then((r) => r.json())
+                .then((newSaving) => {
+                    // updateSaving(deposit)
+                    addNewSavingsToState(newSaving)
+                    handleNewAccountClose()
+                })
+            
+        }
+
+
+        function handleNewDeposit(newSaving) {
+            const deposit={
+                user_id: currentUser.id,
+                saving_id: newSaving.id,
+                deposit_date: '',
+            }
+            fetch(`http://localhost:3000/deposit`, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(deposit),
+                })
+                .then((r) => r.json())
+                .then((newDeposit) => {
+                    handleAddDeposits(newDeposit)
+                })
+
+        }
+
+        function handleNewAccountClose() {
+            setNewOpen(false)
+            setNewSaving({
+                saving_type: "",
+                name: "",
+                amount: ""
+            })
+        }
 
     return(
         <Container>
@@ -223,12 +288,40 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                     </Table>
                     </Grid.Row>
                     <br/>
-                    <Button inverted color='green' floated='right' size='mini'>
-                        Add investment
+                    <Button inverted color='green' floated='right' size='mini' onClick={()=>setNewOpen(true)}>
+                        Add New Account
                     </Button>
-                    <Button inverted color='green' floated='left' size='mini'>
+                        <Modal onClose={() => setNewOpen(false)}
+                            onOpen={() => setNewOpen(true)}
+                            open={newOpen}>
+                                <Modal.Content >
+                                        
+                                    <Modal.Description>
+                                        
+                                        
+                                        <Form onSubmit={(e)=>handleNewAccountSubmit(e)}>  
+                                        <Form.Field label='Savings Account Type' control='select' name='saving_type' onChange={(e)=>handleNewAccountChange(e)} >
+                                            <option ></option>
+                                            <option name="saving_type" value='Regular Savings'>Regular Savings</option> 
+                                            <option name="saving_type" value='Retirement'>Retirement</option>
+                                            <option name="saving_type" value='Other'>Other</option>
+                                        </Form.Field>  
+                                            <Form.Input fluid label='Name' name='name' value={newSaving.name} onChange={(e)=>handleNewAccountChange(e)} />
+                                            <Form.Input fluid label='Amount' name='amount' value={newSaving.amount} onChange={(e)=>handleNewAccountChange(e)} />
+                                        </Form>
+                                    </Modal.Description>
+                                    </Modal.Content>
+                                    <Modal.Actions>
+                                        <Button color='black' onClick={() => handleNewAccountClose()}>
+                                        Cancel
+                                        </Button>
+                                        <Button color='green' onClick={(e)=>handleNewAccountSubmit(e)}>Submit</Button>
+                                    </Modal.Actions>
+                            
+                        </Modal>
+                    {/* <Button inverted color='green' floated='left' size='mini'>
                         Edit investment
-                    </Button>
+                    </Button> */}
                 </Grid.Column>
             </Grid>
            

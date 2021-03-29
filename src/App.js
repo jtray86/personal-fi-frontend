@@ -175,15 +175,19 @@ function App() {
     }
 
     function addNewDebtToState(newDebt) {
-      console.log(newDebt)
+      
       setDebts([...debts, newDebt])
     }
 
     function addNewTransactionToState(newTransaction) {
-      console.log(newTransaction)
+      
       setTransactions([...transactions, newTransaction])
     }
   
+    function addNewSavingsToState(newSaving) {
+      
+      setSavings([...savings, newSaving])
+    }
 
 return (
     <div>
@@ -199,7 +203,7 @@ return (
         <Budget addNewBillToState={addNewBillToState} addNewOutgoingToState={addNewOutgoingToState}  updateEditedOutgoing={updateEditedOutgoing} earnings={earnings} bills={bills} currentUser={currentUser} AddNewEarning={AddNewEarning} updateEarning={updateEarning} updateOutgoing={updateOutgoing} totalOutgoing={totalOutgoing} settingTotalOutgoing={settingTotalOutgoing} outgoing={outgoing} handleDeleteUpdated={handleDeleteUpdated} totalEmergancySavings={totalEmergancySavings}/>
       </Route>
       <Route path='/savings/:id'>
-        <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>
+        <Savings addNewSavingsToState={addNewSavingsToState} currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>
       </Route>
       <Route path='/debt/:id'>
         <Debt addNewTransactionToState={addNewTransactionToState} addNewDebtToState={addNewDebtToState} debts={debts} currentUser={currentUser} transactions={transactions} updateDebts={updateDebts}/>
