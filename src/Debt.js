@@ -1,12 +1,20 @@
-import { Header, Table, Container, Grid, Button, Progress, Segment } from 'semantic-ui-react'
+import { Header, Table, Container, Grid, Button, Progress, Segment, Modal, Form } from 'semantic-ui-react'
 import { useParams, useHistory } from "react-router-dom";
 import DebtRow from "./DebtRow";
 import { useState } from 'react'
 
 
-function Debt({debts, currentUser, transactions, updateDebts}){
+function Debt({debts, currentUser, transactions, updateDebts, addNewTransactionToState, addNewDebtToState}){
     const [payIcon, setPayIcon] = useState(false)
     const [addDebtMod, setAddDebtMod] = useState(false)
+    const [addNewDebtForm, setAddNewDebtForm] = useState({
+        debt_type: "",
+        name: "",
+        inital_amount: "",
+        current_amount: "",
+        interest: "",
+        in_collection: ""
+    })
     const history = useHistory();
 
     const debt_amounts = debts.map((debt) => debt.inital_amount)
@@ -68,8 +76,68 @@ function Debt({debts, currentUser, transactions, updateDebts}){
     )
 
     function removePaymentBtn(){
-        setPayIcon((payIcon)=>false)
+        setPayIcon(false)
     }
+
+    function handleNewDebt(e) {
+        const name = e.target.name;
+        let value = e.target.value;
+        setAddNewDebtForm({
+            ...addNewDebtForm,
+            [name]: value,
+    })
+    }
+
+    console.log(addNewDebtForm)
+    function handleNewDebtClose() {
+        setAddDebtMod(false)
+        setAddNewDebtForm({
+            debt_type: "",
+            name: "",
+            inital_amount: "",
+            current_amount: "",
+            interest: "",
+            in_collection: ""
+        })
+    }
+
+    function handleNewDebtSubmit(e) {
+        e.preventDefault()
+        
+        fetch("http://localhost:3000/newDebt", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(addNewDebtForm),
+                })
+                .then((r) => r.json())
+                .then((newDebtInst) => {
+
+                    addNewTransaction(newDebtInst);
+                    addNewDebtToState(newDebtInst)})
+                    handleNewDebtClose()
+    }
+
+    function addNewTransaction(newDebtInst) {
+        const newTransaction= {
+                user_id: currentUser.id,
+                debt_id: newDebtInst.id,
+                transaction_date: "" 
+            }
+        fetch("http://localhost:3000/transaction", {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newTransaction),
+                })
+                .then((r) => r.json())
+                .then((newTransactionInst) => {
+                    addNewTransactionToState(newTransactionInst)})
+                    
+        }
+    
 
     return(
         
@@ -129,13 +197,13 @@ function Debt({debts, currentUser, transactions, updateDebts}){
                         <Button inverted color='green' floated='right' size='mini' onClick={()=>setPayIcon(!payIcon)} >
                             Report A Payment
                         </Button>
-                        <Button inverted color='green' floated='right' size='mini' onClick={()=>setPayIcon(!payIcon)} >
+                        <Button inverted color='green' floated='right' size='mini' onClick={()=>setAddDebtMod(true)} >
                             Add a Debt
                         </Button>
-                        {/* <Modal
-                        onClose={() => setOpen(false)}
-                        onOpen={() => setOpen(true)}
-                        open={open}
+                        <Modal
+                        onClose={() => setAddDebtMod(false)}
+                        onOpen={() => setAddDebtMod(true)}
+                        open={addDebtMod}
                         >
                         <Modal.Header>Select a Photo</Modal.Header>
                         <Modal.Content >
@@ -143,20 +211,36 @@ function Debt({debts, currentUser, transactions, updateDebts}){
                             <Modal.Description>
                             <Header>Default Profile Image</Header>
                            
-                            <Form onSubmit={(e)=>handleTransactionSubmit(e)}>    
-                                <Form.Input fluid label='Amount' name='amount' value={transactionForm.amount} onChange={(e)=>handleTransaction(e)} />
-                                <Form.Input fluid label='Pay Day YYYY/MM/DD' name='transaction_date' value={transactionForm.transaction_date} onChange={(e)=>handleTransaction(e)} />
-                                
+                            <Form onSubmit={(e)=>handleNewDebtSubmit(e)}>
+                            <Form.Field label='Select Debt Type' control='select' name='debt_type' onChange={(e)=>handleNewDebt(e)} >
+                                        <option ></option>
+                                        <option name="debt_type" value='Credit Card'>Credit Card</option> 
+                                        <option name="debt_type" value='Auto Loan'>Auto Loan</option>
+                                        <option name="debt_type" value='Student Loan'>Student Loan</option>
+                                        <option name="debt_type" value='Personal Loan'>Personal Loan</option>
+                                        <option name="debt_type" value='Medical'>Medical</option>
+                                        <option name="debt_type" value='Payday Loan'>Payday Loan</option>
+                                        <option name="debt_type" value='Miscellaneous'>Miscellaneous</option>
+                                </Form.Field>  
+                                <Form.Input fluid label='Name of Account' name='name' value={addNewDebtForm.name} onChange={(e)=>handleNewDebt(e)} />  
+                                <Form.Input fluid label='Inital Amount' name='inital_amount' value={addNewDebtForm.inital_amount} onChange={(e)=>handleNewDebt(e)} />
+                                <Form.Input fluid label='Current Amount' name='current_amount' value={addNewDebtForm.current_amount} onChange={(e)=>handleNewDebt(e)} />
+                                <Form.Input fluid label='Interset' name='interest' value={addNewDebtForm.interest} onChange={(e)=>handleNewDebt(e)} />
+                                <Form.Field label='Is This Debt in Collections' control='select' name='in_collection' onChange={(e)=>handleNewDebt(e)} >
+                                        <option ></option>
+                                        <option name="in_collection" value='True'>Yes</option> 
+                                        <option name="in_collection" value='False'>No</option>
+                                </Form.Field>  
                             </Form>
                             </Modal.Description>
                         </Modal.Content>
                         <Modal.Actions>
-                            <Button color='black' onClick={() => setOpen(false)}>
+                            <Button color='black' onClick={() => handleNewDebtClose()}>
                             Cancel
                             </Button>
-                            <Button color='green' onClick={(e)=>handleTransactionSubmit(e)}>Submit</Button>
+                            <Button color='green' onClick={(e)=>handleNewDebtSubmit(e)}>Submit</Button>
                         </Modal.Actions>
-                        </Modal> */}
+                        </Modal>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>

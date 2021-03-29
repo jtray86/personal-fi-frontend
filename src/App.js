@@ -173,6 +173,16 @@ function App() {
     function addNewBillToState(newBill) {
       setBills([...bills, newBill])
     }
+
+    function addNewDebtToState(newDebt) {
+      console.log(newDebt)
+      setDebts([...debts, newDebt])
+    }
+
+    function addNewTransactionToState(newTransaction) {
+      console.log(newTransaction)
+      setTransactions([...transactions, newTransaction])
+    }
   
 
 return (
@@ -192,7 +202,7 @@ return (
         <Savings currentUser={currentUser} deposits={deposits} totalOutgoing={totalOutgoing} totalEmergancySavings={totalEmergancySavings} handleAddDeposits={handleAddDeposits} updateSavingsTotal={updateSavingsTotal} setTotalEmergancy={setTotalEmergancy} savings={savings}/>
       </Route>
       <Route path='/debt/:id'>
-        <Debt debts={debts} currentUser={currentUser} transactions={transactions} updateDebts={updateDebts}/>
+        <Debt addNewTransactionToState={addNewTransactionToState} addNewDebtToState={addNewDebtToState} debts={debts} currentUser={currentUser} transactions={transactions} updateDebts={updateDebts}/>
       </Route>
       <Route path='/savingsForm'>
         <SavingForm/>

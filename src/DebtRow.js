@@ -33,7 +33,7 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
 
     function handleTransactionSubmit(e) {
         e.preventDefault()
-        fetch(`http://localhost:3000/transaction/${currentUser.id}`, {
+        fetch(`http://localhost:3000/transaction`, {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
