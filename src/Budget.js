@@ -236,12 +236,23 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 .then((data) => {
                     AddNewEarning(data)})
                 
-        setOpen(false)
+                    handleClose()
     }
 
     function handleClose() {
         setOpen(false) 
         setaddNewBtn(false)
+        setAddProjectedForm({
+            user_id: currentUser.id,
+            income_id: "",
+            pay_day: "",
+            
+        })
+        setNewIncomeForm({
+            income_type: "",
+            name: "",
+            projected: ""
+        })
     }
 
     function handleIncomeSelect(e) {
@@ -275,7 +286,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                 .then((r) => r.json())
                 .then((data) => {
                     addEarning(data.id)})
-        setOpen(false)
+                    handleClose()
     }
 
     function addEarning(id) {
@@ -341,7 +352,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
 
 
     return(
-        <Container>
+        <Container style = {{background: "white", padding: "2rem"}}>
             <Header as='h2' attached='top' textAlign='center'>
                 Budget
             </Header>
@@ -371,8 +382,8 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                         
                         >
                         <Modal.Header>Add Pojected Income
-                            <Button inverted color='green' floated='right' centered size='mini' onClick={()=>setaddNewBtn(true)}>
-                                Add New source of Income
+                            <Button inverted color='green' floated='right' centered size='mini' onClick={()=>setaddNewBtn(!addNewBtn)}>
+                               {addNewBtn ? "Add Pojected Income from previously added Sources " : "Add New source of Income"} 
                             </Button>
                     </Modal.Header>
                         <Modal.Content>
@@ -446,7 +457,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                     <hr/>
                     <strong>Advice</strong>
                     {gapTotal < 0 ?
-                        <p>Lets Focus on increasing your income and/or decreacing your spending</p>
+                        <p>Lets Focus on increasing your income and/or decreasing your spending</p>
                     :totalEmergancySavings < currentOutgoingTotal ?
                         <><p>Lets Focus on your Savings Goals. Any extra income should go to your Emergancy Fund</p>
                         <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/savings/${currentUser.id}`)}>
@@ -581,7 +592,7 @@ function Budget({earnings, bills, currentUser, AddNewEarning, updateEarning, upd
                             <Button color='black' onClick={() => setAddOutgoingMod(false)}>
                             Nope
                             </Button>
-                            <Button inverted color='green' floated='right' centered size='mini'onClick={(e)=>handleAddOutgoingSubmit(e)}>
+                            <Button inverted color='green' floated='right' centered onClick={(e)=>handleAddOutgoingSubmit(e)}>
                                 submit
                             </Button>
                         </Modal.Actions>

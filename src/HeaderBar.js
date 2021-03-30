@@ -3,6 +3,7 @@ import { Button, Modal, Form, Checkbox, Menu, Segment } from 'semantic-ui-react'
 import { useState, React } from "react";
 import { useHistory } from "react-router-dom";
 import Dashboard from './Dashboard';
+import Myfi from "./MYfi.jpg";
 
 function HeaderBar({setCurrentUser, currentUser}){
     const [open, setOpen] = useState(false)
@@ -29,8 +30,8 @@ function HeaderBar({setCurrentUser, currentUser}){
       }
     return(
         <> 
-        <Header as='h1' block textAlign='center' style={{'background-color':'#9effb8'}}>
-            Personal FI
+        <Header as='h1' block textAlign='center' style={{'background-color':'white', 'margin-bottom': '0'}}>
+            <img src= {Myfi} atl="MYFI" style={{height:"4.5rem" , width:"auto"}}/>
             {currentUser ? <Button floated='right'  inverted color='green' size='mini' onClick={handleLogout}>Logout</Button> :
             <Button floated='right'  inverted color='green' size='mini'onClick={() => setOpen((open) =>true)}>Login</Button>}
             <Modal
@@ -72,10 +73,10 @@ function HeaderBar({setCurrentUser, currentUser}){
                     />
                 </Modal.Actions>
                 </Modal>
-           
+        
         </Header>
         {currentUser ? 
-        <Menu pointing secondary>
+        <Menu pointing secondary style = {{background: "white", 'margin-top': '0'}}>
             <Menu.Item
             name='home'
             active={activeNavItem === 'home'}

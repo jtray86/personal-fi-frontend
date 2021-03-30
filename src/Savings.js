@@ -1,6 +1,6 @@
 import { Container, Header, Grid, Button, Table, Progress, Modal, Form, currentUser } from 'semantic-ui-react'
 import {useState} from 'react'
-import SavingForm from './SavingForm'
+// import SavingForm from './SavingForm'
 import SavingRow from './SavingsRow'
 
 function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, handleAddDeposits, updateSavingsTotal, setTotalEmergancy, savings, addNewSavingsToState }){
@@ -179,7 +179,7 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
         }
 
     return(
-        <Container>
+        <Container style = {{background: "white", padding: "2rem"}}>
             <Header as='h2' attached='top' textAlign='center'>
                 Savings
             </Header>
@@ -294,8 +294,9 @@ function Savings({totalOutgoing, deposits, totalEmergancySavings, currentUser, h
                         <Modal onClose={() => setNewOpen(false)}
                             onOpen={() => setNewOpen(true)}
                             open={newOpen}>
+                                <Modal.Header>Add a New Savings or Investment Account</Modal.Header>
                                 <Modal.Content >
-                                        
+                                
                                     <Modal.Description>
                                         
                                         

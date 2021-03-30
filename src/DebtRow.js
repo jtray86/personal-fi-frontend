@@ -80,11 +80,9 @@ function DebtRow({debt, payIcon, removePaymentBtn, currentUser, updateDebts}){
                         onOpen={() => setOpen(true)}
                         open={open}
                         >
-                        <Modal.Header>Select a Photo</Modal.Header>
+                        <Modal.Header>Debt Payment</Modal.Header>
                         <Modal.Content >
-                            
                             <Modal.Description>
-                            <Header>Default Profile Image</Header>
                             {/* <Form onSubmit={(e)=>{handleTransactionSubmit(e)}}> */}
                             <Form onSubmit={(e)=>handleTransactionSubmit(e)}>    
                                 <Form.Input fluid label='Amount' name='amount' value={transactionForm.amount} onChange={(e)=>handleTransaction(e)} />

@@ -39,21 +39,23 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
     setTotalEmergancy(TotalEmSaving)
     
     return(
-    <Container>
-            <Header as='h2' attached='top' textAlign='center'>
+    <Container style = {{background: "white", padding: "2rem"}}>
+            <Header as='h2' attached='top' textAlign='center' >
                 Dashboard
-            </Header>
+            </Header >
             <Grid celled >
                 <Grid.Column floated='left' width={11}>
                     <Grid >
                     <Grid.Row>
                         <Grid.Column style={{"border-bottom": "solid .5px lightgray", 'padding-bottom': "7px"}} >
+                        <h3 style={{textAlign: "center"}}>Debts</h3>
                             <Segment floated='right' style={{width: "75%", "margin-top": "25px"}} >
                                 <Header>Progress</Header>
                                 <Progress percent={percentage_payed.toFixed()} size='small' color='green' progress />
                             </Segment>
                             <h4>Total Inital Debt</h4>
                                 <p>${inital_debt.toFixed(2)}</p>
+                                
                             <h4>Total Current Debt</h4>
                                 <p>${current_debt.toFixed(2)}</p>
                             <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/debt/${currentUser.id}`)}>
@@ -65,9 +67,11 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                     <Grid.Row>
                     
                         <Grid.Column style={{"border-right": "solid .5px lightgray"}} width={10}>
-                            <h4>Total Emergancy Fund Savings</h4>
+                            <h3 style={{textAlign: "center"}}>Savings</h3>
+                            <h5>Total Emergancy Fund Savings</h5>
                             <p>${TotalEmSaving.toFixed(2)}</p>
-                            <h4>Emergancy Fund Goal</h4>
+                            <hr/>
+                            <h5>Emergancy Fund Goal</h5>
                             <p>$ {currentOutgoingTotal.toFixed(2)}</p>
                             <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/savings/${currentUser.id}`)}>
                                 Savings Page
@@ -78,8 +82,8 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                             <hr/>
                             <br/>
                             {gapTotal < 0 ?
-                                <p>Lets Focus on increasing your income and/or decreacing your spending</p>
-                            :TotalEmSaving !== currentOutgoingTotal ?
+                                <p>Lets Focus on increasing your income and/or decreasing your spending</p>
+                            :TotalEmSaving < currentOutgoingTotal ?
                                 <><p>Lets Focus on your Savings Goals. Any extra income should go to your Emergancy Fund</p>
                                 <Button inverted color='green' floated='right' size='mini' onClick={()=> history.push(`/savings/${currentUser.id}`)}>
                                     Savings Page
@@ -94,7 +98,7 @@ function Dashboard({debts, currentUser, deposits, earnings, outgoing, settingTot
                     </Grid>
                 </Grid.Column>
                 <Grid.Column floated='right' style={{margin: 0}} width={5} style={{"text-align": "center"}}>
-                    <h4 style={{'margin-bottom':'0px'}} >Budget</h4>
+                    <h3 style={{'margin-bottom':'0px'}} >Budget</h3>
                     <PieChart outgoing={outgoing}/>
                             <h4 sytle={{'margin-top': '0px'}}>The Gap</h4>
                             <p>${gapTotal.toFixed(2)}</p>

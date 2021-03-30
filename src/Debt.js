@@ -88,7 +88,7 @@ function Debt({debts, currentUser, transactions, updateDebts, addNewTransactionT
     })
     }
 
-    
+    console.log(addNewDebtForm)
     function handleNewDebtClose() {
         setAddDebtMod(false)
         setAddNewDebtForm({
@@ -141,7 +141,7 @@ function Debt({debts, currentUser, transactions, updateDebts, addNewTransactionT
 
     return(
         
-        <Container>
+        <Container style = {{background: "white", padding: "2rem"}}>
             <Header as='h2' attached='top' textAlign='center'>
                 Debit
             </Header>
@@ -184,11 +184,21 @@ function Debt({debts, currentUser, transactions, updateDebts, addNewTransactionT
                 </Table.Body>
             </Table>
                     </Grid.Column>
-                    <Grid.Column width={5} floated='right'>
+                    <Grid.Column width={5} floated='right' textAlign='center'>
                         <br/>
                         <Header textAlign='center'>Total Inital Debt</Header>
-                        <p>${inital_debt}</p><span>${current_debt}</span>
-                        <br/> 
+                        {/* <p>${inital_debt}</p><span>${current_debt}</span>
+                        <br/>  */}
+                        <div style={{display: "inline-flex", "padding-bottom": "6px", }}>
+                                <div style={{"padding-right": "2rem"}}>
+                                    <p>Inital Debt</p>
+                                    <p>${inital_debt.toFixed(2)}</p>
+                                </div>
+                                <div style={{"padding-left": "1.5rem", "border-left":"solid .2px lightgray"}}>
+                                    <p >Current Debt</p>
+                                    <p>${current_debt.toFixed(2)}</p>
+                                </div>
+                            </div>
                         <Segment>
                             <Progress percent={percentage_payed.toFixed()} size='small' color='green' progress >
                                 Paid off
@@ -205,12 +215,10 @@ function Debt({debts, currentUser, transactions, updateDebts, addNewTransactionT
                         onOpen={() => setAddDebtMod(true)}
                         open={addDebtMod}
                         >
-                        <Modal.Header>Select a Photo</Modal.Header>
+                        <Modal.Header>New Debt</Modal.Header>
                         <Modal.Content >
                             
                             <Modal.Description>
-                            <Header>Default Profile Image</Header>
-                           
                             <Form onSubmit={(e)=>handleNewDebtSubmit(e)}>
                             <Form.Field label='Select Debt Type' control='select' name='debt_type' onChange={(e)=>handleNewDebt(e)} >
                                         <option ></option>

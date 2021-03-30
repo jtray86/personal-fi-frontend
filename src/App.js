@@ -7,7 +7,6 @@ import Dashboard from "./Dashboard";
 import Budget from "./Budget";
 import Savings from "./Savings";
 import Debt from "./Debt";
-import SavingForm from "./SavingForm";
 import DebtForm from "./DebtForm";
 import BudgetForm from "./BudgetForm";
 import { useState, useEffect } from "react";
@@ -190,10 +189,10 @@ function App() {
     }
 
 return (
-    <div>
+    <div style = {{background: "#e6e1e8"}}>
       <HeaderBar setCurrentUser={setCurrentUser} currentUser={currentUser} />
     <Switch>
-      <Route exact path='/home'>
+      <Route exact path='/'>
         <Home/> 
       </Route>
       <Route path='/dashboard/:id'>
@@ -207,9 +206,6 @@ return (
       </Route>
       <Route path='/debt/:id'>
         <Debt addNewTransactionToState={addNewTransactionToState} addNewDebtToState={addNewDebtToState} debts={debts} currentUser={currentUser} transactions={transactions} updateDebts={updateDebts}/>
-      </Route>
-      <Route path='/savingsForm'>
-        <SavingForm/>
       </Route>
       <Route path='/debtForm'>
         <DebtForm/>
